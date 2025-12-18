@@ -1,18 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginForm />
+        </Suspense>
+    );
+}
+
+function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
+    const searchParams = useSearchParams();
     const supabase = createClient();
+
+    useEffect(() => {
+        const errorMsg = searchParams.get("error_description") || searchParams.get("error");
+        if (errorMsg) {
+            setError(decodeURIComponent(errorMsg));
+        }
+    }, [searchParams]);
+
+    const handleResend = async () => {
+        if (!email) {
+            setError("Please enter your email address to resend the confirmation.");
+            return;
+        }
+        setLoading(true);
+        const { error } = await supabase.auth.resend({
+            type: 'signup',
+            email: email,
+            options: {
+                emailRedirectTo: `${location.origin}/auth/callback`
+            }
+        });
+        setLoading(false);
+        if (error) setError(error.message);
+        else setError("Confirmation email resent! Check your inbox.");
+    };
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -131,8 +165,22 @@ export default function LoginPage() {
                     </div>
 
                     {error && (
-                        <div className="rounded-md bg-red-50 p-2 text-sm text-red-500">
-                            {error}
+                        <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
+                            <div className="flex items-start gap-2">
+                                <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                                <div className="flex flex-col gap-1">
+                                    <p>{error}</p>
+                                    {(error.toLowerCase().includes("expired") || error.toLowerCase().includes("invalid") || error.toLowerCase().includes("token")) && (
+                                        <button
+                                            type="button"
+                                            onClick={handleResend}
+                                            className="text-left font-semibold underline hover:text-red-800"
+                                        >
+                                            Resend confirmation email
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     )}
 
