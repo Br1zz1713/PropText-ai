@@ -28,7 +28,16 @@ function LoginForm() {
         if (errorMsg) {
             setError(decodeURIComponent(errorMsg));
         }
-    }, [searchParams]);
+
+        // Check if user is already logged in
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                router.replace("/dashboard");
+            }
+        };
+        checkSession();
+    }, [searchParams, router, supabase.auth]);
 
     const handleResend = async () => {
         if (!email) {
