@@ -82,23 +82,22 @@ export default function GeneratorPage() {
     };
 
     return (
-        <div className="mx-auto max-w-7xl px-8 py-10">
-            <div className="mb-10 flex items-end justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                        New Property Listing
-                    </h1>
-                    <p className="mt-2 text-muted-foreground">Generate a premium description in seconds.</p>
-                </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="mb-10">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                    New Property Listing
+                </h1>
+                <p className="mt-2 text-muted-foreground">Generate a premium description in seconds.</p>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
                 {/* Left Column: Input Form (Span 7) */}
-                <div className="lg:col-span-7">
+                <div className="lg:col-span-7 space-y-8">
                     <form onSubmit={handleSubmit} className="space-y-8">
 
                         {/* Section: Basic Info */}
-                        <div className="rounded-xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-premium">
+                        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm">
                             <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
                                 <div className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
                                     <span className="text-xs font-bold">1</span>
@@ -113,7 +112,7 @@ export default function GeneratorPage() {
                                         name="propertyType"
                                         value={formData.propertyType}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     >
                                         <option>Apartment</option>
                                         <option>House</option>
@@ -131,7 +130,7 @@ export default function GeneratorPage() {
                                         required
                                         value={formData.sqMeters}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                         placeholder="e.g. 120"
                                     />
                                 </div>
@@ -142,7 +141,7 @@ export default function GeneratorPage() {
                                         name="bedrooms"
                                         value={formData.bedrooms}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                         placeholder="2"
                                     />
                                 </div>
@@ -153,7 +152,7 @@ export default function GeneratorPage() {
                                         name="bathrooms"
                                         value={formData.bathrooms}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                         placeholder="1"
                                     />
                                 </div>
@@ -161,7 +160,7 @@ export default function GeneratorPage() {
                         </div>
 
                         {/* Section: Location & Features */}
-                        <div className="rounded-xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-premium">
+                        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm">
                             <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
                                 <div className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
                                     <span className="text-xs font-bold">2</span>
@@ -171,17 +170,15 @@ export default function GeneratorPage() {
                             <div className="space-y-6">
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-foreground">Address / Area</label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            name="location"
-                                            required
-                                            value={formData.location}
-                                            onChange={handleChange}
-                                            className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
-                                            placeholder="e.g. Downtown, New York"
-                                        />
-                                    </div>
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        required
+                                        value={formData.location}
+                                        onChange={handleChange}
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                        placeholder="e.g. Downtown, New York"
+                                    />
                                 </div>
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-foreground">Key Amenities</label>
@@ -190,7 +187,7 @@ export default function GeneratorPage() {
                                         name="amenities"
                                         value={formData.amenities}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                         placeholder="Balcony, Concierge, Rooftop, Gym..."
                                     />
                                 </div>
@@ -201,7 +198,7 @@ export default function GeneratorPage() {
                                         rows={2}
                                         value={formData.usp}
                                         onChange={handleChange}
-                                        className="w-full resize-none rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full resize-none rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                         placeholder="What makes this property special?"
                                     />
                                 </div>
@@ -209,7 +206,7 @@ export default function GeneratorPage() {
                         </div>
 
                         {/* Section: Configuration */}
-                        <div className="rounded-xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-premium">
+                        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-slate-200 dark:border-gray-700 shadow-sm">
                             <div className="grid grid-cols-2 gap-6">
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-foreground">Tone</label>
@@ -217,7 +214,7 @@ export default function GeneratorPage() {
                                         name="style"
                                         value={formData.style}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     >
                                         <option>Professional</option>
                                         <option>Luxury</option>
@@ -231,7 +228,7 @@ export default function GeneratorPage() {
                                         name="language"
                                         value={formData.language}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring transition-all"
+                                        className="w-full rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-900 px-4 py-3 text-foreground shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                     >
                                         <option>English</option>
                                         <option>German</option>
@@ -245,7 +242,7 @@ export default function GeneratorPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
+                            className="group flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-4 text-base font-bold text-white shadow-lg transition-all hover:scale-[1.02] hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-70"
                         >
                             {loading ? (
                                 <>
@@ -265,11 +262,11 @@ export default function GeneratorPage() {
                 {/* Right Column: Result (Span 5) - Sticky */}
                 <div className="lg:col-span-5 relative">
                     <div className="sticky top-24 space-y-4">
-                        <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-premium min-h-[500px] flex flex-col">
+                        <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-premium min-h-[500px] flex flex-col">
                             {/* Header */}
-                            <div className="flex items-center justify-between border-b border-border p-6 bg-muted/20">
+                            <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 p-6 bg-gray-50/50 dark:bg-gray-900/50">
                                 <h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
-                                    <Sparkles size={16} className="text-primary" />
+                                    <Sparkles size={16} className="text-indigo-600" />
                                     AI Result
                                 </h3>
 
@@ -280,7 +277,7 @@ export default function GeneratorPage() {
                                             "inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold transition-all",
                                             copied
                                                 ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
-                                                : "border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground"
+                                                : "border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-muted-foreground hover:text-foreground"
                                         )}
                                     >
                                         {copied ? <Check size={14} /> : <Copy size={14} />}
@@ -294,27 +291,27 @@ export default function GeneratorPage() {
                                 {loading ? (
                                     <div className="space-y-6">
                                         <div className="flex items-center gap-3 animate-pulse">
-                                            <div className="h-5 w-5 rounded-full bg-primary/20"></div>
-                                            <p className="text-sm font-medium text-primary animate-pulse">AI is writing your premium listing...</p>
+                                            <div className="h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30"></div>
+                                            <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400 animate-pulse">AI is writing your premium listing...</p>
                                         </div>
                                         <div className="space-y-3 pt-2">
-                                            <div className="h-4 w-3/4 rounded bg-muted animate-pulse"></div>
-                                            <div className="h-4 w-full rounded bg-muted animate-pulse"></div>
-                                            <div className="h-4 w-5/6 rounded bg-muted animate-pulse"></div>
-                                            <div className="h-4 w-full rounded bg-muted animate-pulse"></div>
-                                            <div className="h-4 w-2/3 rounded bg-muted animate-pulse"></div>
-                                            <div className="h-4 w-4/5 rounded bg-muted animate-pulse"></div>
+                                            <div className="h-4 w-3/4 rounded bg-gray-100 dark:bg-gray-700 animate-pulse"></div>
+                                            <div className="h-4 w-full rounded bg-gray-100 dark:bg-gray-700 animate-pulse"></div>
+                                            <div className="h-4 w-5/6 rounded bg-gray-100 dark:bg-gray-700 animate-pulse"></div>
+                                            <div className="h-4 w-full rounded bg-gray-100 dark:bg-gray-700 animate-pulse"></div>
+                                            <div className="h-4 w-2/3 rounded bg-gray-100 dark:bg-gray-700 animate-pulse"></div>
+                                            <div className="h-4 w-4/5 rounded bg-gray-100 dark:bg-gray-700 animate-pulse"></div>
                                         </div>
                                     </div>
                                 ) : result ? (
                                     <div className="animate-in fade-in zoom-in-95 duration-500">
-                                        <div className="prose prose-sm max-w-none text-foreground leading-relaxed whitespace-pre-wrap">
+                                        <div className="prose prose-slate dark:prose-invert prose-sm max-w-none leading-relaxed whitespace-pre-wrap">
                                             {result}
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="flex h-full flex-col items-center justify-center space-y-4 text-center text-muted-foreground opacity-60">
-                                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+                                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-50 dark:bg-gray-900">
                                             <Sparkles className="h-8 w-8" />
                                         </div>
                                         <div className="max-w-xs">
