@@ -1,14 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Loader2, Sparkles, Copy, Check, Info } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { createClient } from "@/utils/supabase/client";
 
 export default function GeneratorPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState<string | null>(null);
+
+    const supabase = createClient();
+
+    useEffect(() => {
+        const showWelcome = async () => {
+            if (searchParams.get("welcome")) {
+                const { data: { user } } = await supabase.auth.getUser();
+                const name = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
+                toast.success(`Signed in as ${name}`);
+                router.replace("/dashboard");
+            }
+        };
+        showWelcome();
+    }, [searchParams, router, supabase]);
 
     const [formData, setFormData] = useState({
         propertyType: "Apartment",
