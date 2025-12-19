@@ -3,9 +3,9 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export function Hero() {
     return (
-        <section className="relative pt-32 pb-24 overflow-hidden">
+        <section className="relative pt-24 pb-16 overflow-hidden">
             {/* Subtle Gradient Background */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-50/50 via-white to-white dark:from-indigo-950/20 dark:via-background dark:to-background" />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/5 via-background to-background" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="flex flex-col items-center text-center max-w-4xl mx-auto">

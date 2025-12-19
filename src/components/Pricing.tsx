@@ -34,15 +34,15 @@ export function Pricing() {
                         </ul>
                         <Link
                             href="/signup"
-                            className="mt-8 block rounded-xl border border-slate-200 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-900 transition-all hover:bg-slate-50"
+                            className="mt-8 block rounded-lg border border-slate-200 bg-white px-5 py-3 text-center text-sm font-semibold text-slate-900 transition-all hover:bg-slate-50"
                         >
                             Get Started
                         </Link>
                     </div>
 
                     {/* Pro Tier */}
-                    <div className="relative rounded-2xl border-2 border-indigo-200 bg-white p-8 shadow-sm flex flex-col">
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
+                    <div className="relative rounded-2xl border-2 border-primary/20 bg-white p-8 shadow-sm flex flex-col">
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
                             Popular
                         </div>
                         <h3 className="text-lg font-semibold text-slate-900">Pro Agent</h3>
@@ -54,8 +54,8 @@ export function Pricing() {
                         <ul className="mt-8 space-y-3 flex-1">
                             {['Unlimited Listings', '24/7 Priority Support', 'Usage History', 'Early Access', 'Advanced Styles'].map((feature, i) => (
                                 <li key={i} className="flex gap-2 text-sm text-slate-700 font-medium">
-                                    <div className="rounded-full bg-indigo-50 p-0.5 mt-0.5">
-                                        <Check className="h-3.5 w-3.5 text-indigo-600" />
+                                    <div className="rounded-full bg-primary/10 p-0.5 mt-0.5">
+                                        <Check className="h-3.5 w-3.5 text-primary" />
                                     </div>
                                     {feature}
                                 </li>
@@ -63,7 +63,7 @@ export function Pricing() {
                         </ul>
                         <Link
                             href="/signup?plan=pro"
-                            className="mt-8 block rounded-xl bg-indigo-600 px-5 py-3 text-center text-sm font-semibold text-white transition-all hover:bg-indigo-700 shadow-sm"
+                            className="mt-8 block rounded-lg bg-primary px-5 py-3 text-center text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 shadow-sm"
                         >
                             Subscribe Now
                         </Link>

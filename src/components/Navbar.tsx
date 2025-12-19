@@ -7,7 +7,7 @@ export async function Navbar() {
     const { data: { user } } = await supabase.auth.getUser();
 
     return (
-        <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+        <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex h-16 items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
@@ -45,7 +45,9 @@ export async function Navbar() {
                                     href="/signup"
                                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-95"
                                 >
-                                    Get Started <ArrowRight className="h-4 w-4" />
+                                    <span className="hidden sm:inline">Get Started</span>
+                                    <span className="sm:hidden">Start</span>
+                                    <ArrowRight className="h-4 w-4" />
                                 </Link>
                             </>
                         )}
