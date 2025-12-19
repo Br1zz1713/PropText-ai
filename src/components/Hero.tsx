@@ -3,43 +3,43 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export function Hero() {
     return (
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section className="relative pt-32 pb-24 overflow-hidden">
             {/* Subtle Gradient Background */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-50/30 via-white to-white" />
+            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-50/50 via-white to-white dark:from-indigo-950/20 dark:via-background dark:to-background" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
-                <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
+                <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
 
                     {/* Compact Badge */}
-                    <div className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-2.5 py-1 mb-6 border border-indigo-100">
-                        <Sparkles className="h-3 w-3 text-indigo-600" />
-                        <span className="text-xs font-medium text-indigo-700">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 mb-8 border border-primary/20">
+                        <Sparkles className="h-3.5 w-3.5 text-primary" />
+                        <span className="text-xs font-semibold text-primary">
                             Powered by AI
                         </span>
                     </div>
 
-                    <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl md:text-6xl">
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground mb-6">
                         Property descriptions that{" "}
-                        <span className="text-indigo-600">
+                        <span className="text-primary">
                             sell faster
                         </span>
                     </h1>
 
-                    <p className="mt-6 text-lg text-slate-600 max-w-xl">
+                    <p className="text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
                         Generate professional, SEO-optimized real estate descriptions in seconds.
                     </p>
 
-                    <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                         <Link
                             href="/signup"
-                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95"
+                            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md active:scale-95"
                         >
                             Start Free
-                            <ArrowRight className="h-4 w-4" />
+                            <ArrowRight className="h-5 w-5" />
                         </Link>
                         <Link
                             href="#how-it-works"
-                            className="inline-flex items-center justify-center rounded-xl bg-white border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50"
+                            className="inline-flex items-center justify-center rounded-lg border border-border bg-background px-8 py-4 text-base font-semibold text-foreground shadow-sm transition-all hover:bg-muted"
                         >
                             See How It Works
                         </Link>
