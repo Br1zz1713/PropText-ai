@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { CookieBanner } from "@/components/CookieBanner";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -19,9 +20,16 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.variable + " antialiased min-h-screen flex flex-col"}>
-                {children}
-                <CookieBanner />
-                <Toaster position="bottom-center" richColors />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                    <CookieBanner />
+                    <Toaster position="bottom-center" richColors />
+                </ThemeProvider>
             </body>
         </html>
     );
