@@ -10,28 +10,39 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                background: "#FFFFFF", // Pure white
-                foreground: "#0F172A", // Slate-900 (Deep text)
+                border: "var(--border)",
+                input: "var(--input)",
+                ring: "var(--ring)",
+                background: "var(--background)",
+                foreground: "var(--foreground)",
                 primary: {
-                    DEFAULT: "#4F46E5", // Indigo-600
-                    foreground: "#FFFFFF",
+                    DEFAULT: "var(--primary)",
+                    foreground: "var(--primary-foreground)",
+                },
+                secondary: {
+                    DEFAULT: "var(--secondary)",
+                    foreground: "var(--secondary-foreground)",
+                },
+                destructive: {
+                    DEFAULT: "var(--destructive)",
+                    foreground: "var(--destructive-foreground)",
                 },
                 muted: {
-                    DEFAULT: "#F8FAFC", // Slate-50
-                    foreground: "#64748B", // Slate-500
+                    DEFAULT: "var(--muted)",
+                    foreground: "var(--muted-foreground)",
                 },
-                slate: {
-                    50: '#f8fafc',
-                    100: '#f1f5f9',
-                    200: '#e2e8f0',
-                    300: '#cbd5e1',
-                    400: '#94a3b8',
-                    500: '#64748b',
-                    600: '#475569', // Body text
-                    700: '#334155',
-                    800: '#1e293b',
-                    900: '#0f172a', // Headings
-                }
+                accent: {
+                    DEFAULT: "var(--accent)",
+                    foreground: "var(--accent-foreground)",
+                },
+                popover: {
+                    DEFAULT: "var(--popover)",
+                    foreground: "var(--popover-foreground)",
+                },
+                card: {
+                    DEFAULT: "var(--card)",
+                    foreground: "var(--card-foreground)",
+                },
             },
             fontFamily: {
                 sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],

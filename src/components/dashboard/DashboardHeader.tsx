@@ -33,21 +33,13 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
     };
 
     return (
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/80 px-8 backdrop-blur-md transition-all duration-300">
-            <h1 className="text-lg font-bold text-foreground lg:hidden">PropText.ai</h1>
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-background/80 px-6 backdrop-blur-md">
+            <h1 className="text-sm font-semibold text-foreground lg:hidden">PropText.ai</h1>
 
             <div className="ml-auto flex items-center gap-4">
-                {/* Credits Badge */}
-                <div className={cn(
-                    "flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-inset transition-all",
-                    credits > 0
-                        ? "bg-emerald-500/10 text-emerald-600 ring-emerald-500/20 dark:text-emerald-400"
-                        : "bg-red-500/10 text-red-600 ring-red-500/20 dark:text-red-400"
-                )}>
-                    <span className="relative flex h-1.5 w-1.5">
-                        <span className={cn("animate-ping absolute inline-flex h-full w-full rounded-full opacity-75", credits > 0 ? "bg-emerald-500" : "bg-red-500")}></span>
-                        <span className={cn("relative inline-flex rounded-full h-1.5 w-1.5", credits > 0 ? "bg-emerald-500" : "bg-red-500")}></span>
-                    </span>
+                {/* Credits Badge - Simplified */}
+                <div className="flex items-center gap-1.5 rounded-full border border-border bg-secondary/50 px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
+                    <span className={cn("flex h-1.5 w-1.5 rounded-full", credits > 0 ? "bg-emerald-500" : "bg-red-500")}></span>
                     <span>{credits} / 3</span>
                 </div>
 

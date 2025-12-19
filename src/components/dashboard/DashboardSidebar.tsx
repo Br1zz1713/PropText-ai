@@ -16,8 +16,8 @@ export default function DashboardSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="sticky top-16 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-border bg-card px-4 py-8 lg:flex transition-all duration-300">
-            <nav className="flex-1 space-y-2">
+        <aside className="sticky top-16 hidden h-[calc(100vh-64px)] w-64 flex-col border-r border-[#374151] bg-[#1F2937] px-3 py-6 text-gray-200 transition-all lg:flex">
+            <nav className="flex-1 space-y-1">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
                     return (
@@ -25,17 +25,18 @@ export default function DashboardSidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
+                                "group flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                                 isActive
-                                    ? "bg-primary/10 text-primary hover:bg-primary/15"
-                                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                                    ? "bg-[#374151] text-white"
+                                    : "text-gray-400 hover:bg-[#374151]/50 hover:text-white"
                             )}
                         >
                             <item.icon
                                 size={18}
+                                strokeWidth={2}
                                 className={cn(
                                     "transition-colors",
-                                    isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                                    isActive ? "text-[#6366f1]" : "text-gray-500 group-hover:text-gray-300"
                                 )}
                             />
                             {item.name}
@@ -44,10 +45,10 @@ export default function DashboardSidebar() {
                 })}
             </nav>
 
-            <div className="rounded-xl border border-border bg-accent/50 p-4">
-                <h4 className="mb-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">Pro Tip</h4>
-                <p className="text-xs text-muted-foreground">
-                    Use <span className="font-semibold text-foreground">specific</span> keywords for better AI results.
+            <div className="rounded-lg bg-[#374151]/50 p-4 border border-[#374151]">
+                <h4 className="mb-1 text-xs font-bold uppercase tracking-wider text-gray-400">Pro Tip</h4>
+                <p className="text-xs text-gray-500">
+                    Use <span className="font-semibold text-gray-300">specific</span> keywords.
                 </p>
             </div>
         </aside>
