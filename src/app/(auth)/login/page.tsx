@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import { Loader2, AlertCircle } from "lucide-react";
+import { getSiteUrl } from "@/lib/utils";
 
 export default function LoginPage() {
     return (
@@ -26,7 +27,11 @@ function LoginForm() {
     useEffect(() => {
         const errorMsg = searchParams.get("error_description") || searchParams.get("error");
         if (errorMsg) {
-            setError(decodeURIComponent(errorMsg));
+            let message = decodeURIComponent(errorMsg);
+            if (message.includes("access_denied")) {
+                message = "Access denied. You may have cancelled the Google sign-in process.";
+            }
+            setError(message);
         }
 
         // Check if user is already logged in
@@ -49,7 +54,7 @@ function LoginForm() {
             type: 'signup',
             email: email,
             options: {
-                emailRedirectTo: `${location.origin}/auth/callback`
+                emailRedirectTo: `${getSiteUrl()}/auth/callback`
             }
         });
         setLoading(false);
@@ -85,7 +90,7 @@ function LoginForm() {
         const { error } = await supabase.auth.signInWithOAuth({
             provider,
             options: {
-                redirectTo: `${location.origin}/auth/callback`,
+                redirectTo: `${getSiteUrl()}/auth/callback`,
             },
         });
         if (error) setError(error.message);
