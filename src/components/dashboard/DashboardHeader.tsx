@@ -60,7 +60,7 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
                         {user?.user_metadata?.avatar_url ? (
                             <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-background border border-border shadow-sm transition-transform duration-200 group-hover:scale-105">
                                 <Image
-                                    src={user.user_metadata.avatar_url}
+                                    src={user.user_metadata.avatar_url || user.user_metadata.picture}
                                     alt="Avatar"
                                     fill
                                     className="object-cover"

@@ -6,6 +6,17 @@ import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
     const { setTheme, theme } = useTheme();
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return (
+            <div className="h-9 w-9 rounded-full border border-gray-200 bg-white/50 dark:border-slate-800 dark:bg-slate-900/50" />
+        );
+    }
 
     return (
         <button
