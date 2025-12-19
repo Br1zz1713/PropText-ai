@@ -82,73 +82,76 @@ export default function GeneratorPage() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto py-6 min-h-[calc(100vh-80px)] flex flex-col justify-center">
-            <div className="mb-8 text-center lg:text-left">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:text-white dark:from-white dark:to-slate-400">
-                    New Property Listing
-                </h1>
-                <p className="mt-2 text-slate-500 dark:text-slate-400">Enter the details below to generate a premium description.</p>
+        <div className="mx-auto max-w-7xl px-8 py-10">
+            <div className="mb-10 flex items-end justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                        New Property Listing
+                    </h1>
+                    <p className="mt-2 text-muted-foreground">Generate a premium description in seconds.</p>
+                </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Input Form */}
-                <div className="lg:col-span-7 space-y-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                {/* Left Column: Input Form (Span 7) */}
+                <div className="lg:col-span-7">
+                    <form onSubmit={handleSubmit} className="space-y-8">
+
                         {/* Section: Basic Info */}
-                        <div className="glass-card rounded-2xl p-6 transition-all hover:shadow-md dark:hover:shadow-indigo-500/10">
-                            <h3 className="flex items-center gap-2 text-sm uppercase tracking-wider text-indigo-600 font-bold mb-6 dark:text-indigo-400">
-                                <div className="h-1.5 w-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400"></div> Property Details
+                        <div className="rounded-xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-premium">
+                            <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary">
+                                <span className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                                Property Details
                             </h3>
-                            <div className="grid grid-cols-2 gap-5">
+
+                            <div className="grid grid-cols-2 gap-6">
                                 <div className="col-span-2 sm:col-span-1">
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1 dark:text-slate-400">Type</label>
-                                    <div className="relative">
-                                        <select
-                                            name="propertyType"
-                                            value={formData.propertyType}
-                                            onChange={handleChange}
-                                            className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white dark:bg-slate-800/50 dark:text-white dark:ring-slate-700 dark:hover:bg-slate-800 dark:focus:ring-indigo-500"
-                                        >
-                                            <option>Apartment</option>
-                                            <option>House</option>
-                                            <option>Villa</option>
-                                            <option>Penthouse</option>
-                                            <option>Studio</option>
-                                            <option>Commercial</option>
-                                        </select>
-                                    </div>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Property Type</label>
+                                    <select
+                                        name="propertyType"
+                                        value={formData.propertyType}
+                                        onChange={handleChange}
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
+                                    >
+                                        <option>Apartment</option>
+                                        <option>House</option>
+                                        <option>Villa</option>
+                                        <option>Penthouse</option>
+                                        <option>Studio</option>
+                                        <option>Commercial</option>
+                                    </select>
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1 dark:text-slate-400">Size (m²)</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Size (m²)</label>
                                     <input
                                         type="number"
                                         name="sqMeters"
                                         required
                                         value={formData.sqMeters}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white dark:bg-slate-800/50 dark:text-white dark:ring-slate-700 dark:hover:bg-slate-800 dark:placeholder:text-slate-600 dark:focus:ring-indigo-500"
-                                        placeholder="85"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
+                                        placeholder="e.g. 120"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1 dark:text-slate-400">Bedrooms</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Bedrooms</label>
                                     <input
                                         type="number"
                                         name="bedrooms"
                                         value={formData.bedrooms}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white dark:bg-slate-800/50 dark:text-white dark:ring-slate-700 dark:hover:bg-slate-800 dark:placeholder:text-slate-600 dark:focus:ring-indigo-500"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
                                         placeholder="2"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1 dark:text-slate-400">Bathrooms</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Bathrooms</label>
                                     <input
                                         type="number"
                                         name="bathrooms"
                                         value={formData.bathrooms}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white dark:bg-slate-800/50 dark:text-white dark:ring-slate-700 dark:hover:bg-slate-800 dark:placeholder:text-slate-600 dark:focus:ring-indigo-500"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
                                         placeholder="1"
                                     />
                                 </div>
@@ -156,58 +159,61 @@ export default function GeneratorPage() {
                         </div>
 
                         {/* Section: Location & Features */}
-                        <div className="glass-card rounded-2xl p-6 transition-all hover:shadow-md">
-                            <h3 className="flex items-center gap-2 text-sm uppercase tracking-wider text-indigo-600 font-bold mb-6">
-                                <div className="h-1.5 w-1.5 rounded-full bg-indigo-500"></div> Location & Features
+                        <div className="rounded-xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-premium">
+                            <h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-primary">
+                                <span className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                                Location & Features
                             </h3>
-                            <div className="space-y-5">
+                            <div className="space-y-6">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1">Location</label>
-                                    <input
-                                        type="text"
-                                        name="location"
-                                        required
-                                        value={formData.location}
-                                        onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white"
-                                        placeholder="e.g. Berlin, Mitte"
-                                    />
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Address / Area</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="location"
+                                            required
+                                            value={formData.location}
+                                            onChange={handleChange}
+                                            className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
+                                            placeholder="e.g. Downtown, New York"
+                                        />
+                                    </div>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1">Amenities</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Key Amenities</label>
                                     <input
                                         type="text"
                                         name="amenities"
                                         value={formData.amenities}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white"
-                                        placeholder="Balcony, Floor heating, Smart Home..."
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
+                                        placeholder="Balcony, Concierge, Rooftop, Gym..."
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1">Unique Selling Point</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Unique Selling Point</label>
                                     <textarea
                                         name="usp"
                                         rows={2}
                                         value={formData.usp}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white resize-none"
-                                        placeholder="e.g. Stunning rooftop terrace with city views"
+                                        className="w-full resize-none rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
+                                        placeholder="What makes this property special?"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Section: Style */}
-                        <div className="glass-card rounded-2xl p-6 transition-all hover:shadow-md">
-                            <div className="grid grid-cols-2 gap-5">
+                        {/* Section: Configuration */}
+                        <div className="rounded-xl border border-border bg-card p-8 shadow-sm transition-all duration-300 hover:shadow-premium">
+                            <div className="grid grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1">Tone</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Tone</label>
                                     <select
                                         name="style"
                                         value={formData.style}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
                                     >
                                         <option>Professional</option>
                                         <option>Luxury</option>
@@ -216,12 +222,12 @@ export default function GeneratorPage() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-semibold text-slate-500 uppercase mb-1.5 ml-1">Language</label>
+                                    <label className="mb-2 block text-sm font-medium text-foreground">Language</label>
                                     <select
                                         name="language"
                                         value={formData.language}
                                         onChange={handleChange}
-                                        className="block w-full rounded-xl border-0 bg-slate-50/50 p-3.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 transition-all hover:bg-white"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground shadow-sm focus:border-ring focus:ring-1 focus:ring-ring"
                                     >
                                         <option>English</option>
                                         <option>German</option>
@@ -235,79 +241,77 @@ export default function GeneratorPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-6 py-4 text-base font-bold text-white shadow-lg shadow-indigo-500/30 transition-all hover:bg-indigo-700 hover:scale-[1.01] hover:shadow-indigo-500/50 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                            className="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground shadow-lg transition-all hover:scale-[1.02] hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
                         >
                             {loading ? (
                                 <>
                                     <Loader2 className="h-5 w-5 animate-spin" />
-                                    Crafting Description...
+                                    Generating...
                                 </>
                             ) : (
                                 <>
-                                    <Sparkles className="h-5 w-5 transition-transform group-hover:rotate-12" />
-                                    Generate Listing
+                                    <Sparkles className="h-5 w-5" />
+                                    Generate Description
                                 </>
                             )}
                         </button>
                     </form>
                 </div>
 
-                {/* Output Section */}
+                {/* Right Column: Result (Span 5) */}
                 <div className="lg:col-span-5">
                     <div className="sticky top-24">
-                        <div className="glass-panel min-h-[600px] rounded-3xl p-1 shadow-2xl shadow-indigo-500/10 flex flex-col relative overflow-hidden ring-1 ring-white/60">
-                            <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-transparent pointer-events-none"></div>
+                        <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-premium lg:min-h-[600px] flex flex-col">
+                            {/* Header */}
+                            <div className="flex items-center justify-between border-b border-border p-6 bg-muted/20">
+                                <h3 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-foreground">
+                                    <Sparkles size={16} className="text-primary" />
+                                    AI Result
+                                </h3>
 
-                            <div className="relative z-10 flex-1 bg-white/40 backdrop-blur-sm rounded-2xl m-1 flex flex-col border border-white/50">
-                                <div className="flex justify-between items-center p-6 border-b border-white/20">
-                                    <h3 className="text-sm uppercase tracking-wider text-slate-900 font-bold flex items-center gap-2">
-                                        <Sparkles size={16} className="text-indigo-500" />
-                                        AI Result
-                                    </h3>
-                                    {result && (
-                                        <button
-                                            onClick={copyToClipboard}
-                                            className={cn(
-                                                "inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition-all",
-                                                copied
-                                                    ? "bg-green-50 border-green-200 text-green-700"
-                                                    : "bg-white border-white/60 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-100 shadow-sm"
-                                            )}
-                                        >
-                                            {copied ? <Check size={14} /> : <Copy size={14} />}
-                                            {copied ? "Copied!" : "Copy"}
-                                        </button>
-                                    )}
-                                </div>
+                                {result && (
+                                    <button
+                                        onClick={copyToClipboard}
+                                        className={cn(
+                                            "inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold transition-all",
+                                            copied
+                                                ? "border-emerald-200 bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
+                                                : "border-border bg-background hover:bg-muted text-muted-foreground hover:text-foreground"
+                                        )}
+                                    >
+                                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                                        {copied ? "Copied" : "Copy"}
+                                    </button>
+                                )}
+                            </div>
 
-                                <div className="flex-1 p-6 overflow-y-auto custom-scrollbar">
-                                    {loading ? (
-                                        <div className="space-y-4 animate-pulse">
-                                            <div className="h-4 bg-indigo-100/50 rounded w-3/4"></div>
-                                            <div className="h-4 bg-indigo-100/50 rounded w-full"></div>
-                                            <div className="h-4 bg-indigo-100/50 rounded w-5/6"></div>
-                                            <div className="h-4 bg-indigo-100/50 rounded w-full"></div>
-                                            <div className="space-y-2 pt-4">
-                                                <div className="h-3 bg-slate-100 rounded w-full"></div>
-                                                <div className="h-3 bg-slate-100 rounded w-11/12"></div>
-                                                <div className="h-3 bg-slate-100 rounded w-full"></div>
-                                            </div>
+                            {/* Content */}
+                            <div className="flex-1 p-8">
+                                {loading ? (
+                                    <div className="space-y-6 animate-pulse">
+                                        <div className="h-4 w-3/4 rounded bg-muted"></div>
+                                        <div className="h-4 w-full rounded bg-muted"></div>
+                                        <div className="h-4 w-5/6 rounded bg-muted"></div>
+                                        <div className="h-4 w-full rounded bg-muted"></div>
+                                        <div className="h-4 w-2/3 rounded bg-muted"></div>
+                                    </div>
+                                ) : result ? (
+                                    <div className="animate-in fade-in zoom-in-95 duration-500">
+                                        <div className="prose prose-sm max-w-none text-foreground leading-relaxed whitespace-pre-wrap">
+                                            {result}
                                         </div>
-                                    ) : result ? (
-                                        <div className="animate-in fade-in zoom-in-95 duration-500">
-                                            <div className="prose prose-slate prose-sm max-w-none text-slate-600 leading-relaxed whitespace-pre-wrap font-medium">
-                                                {result}
-                                            </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex h-full flex-col items-center justify-center space-y-4 text-center text-muted-foreground opacity-60">
+                                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+                                            <Sparkles className="h-8 w-8" />
                                         </div>
-                                    ) : (
-                                        <div className="h-full flex flex-col items-center justify-center text-slate-400 space-y-4 opacity-50">
-                                            <div className="p-4 rounded-full bg-slate-50 ring-1 ring-slate-100">
-                                                <Sparkles className="h-8 w-8 text-slate-300" />
-                                            </div>
-                                            <p className="text-sm font-medium">Ready to create magic</p>
+                                        <div className="max-w-xs">
+                                            <p className="text-sm font-medium text-foreground">Ready to create magic</p>
+                                            <p className="mt-1 text-xs">Fill in the property details and let our AI write the perfect description.</p>
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

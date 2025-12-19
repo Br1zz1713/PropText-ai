@@ -3,34 +3,55 @@
 @tailwind utilities;
 
 :root {
+  /* Light Mode: Pure Clean White */
   --background: #ffffff;
   --foreground: #0f172a;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --font-inter: 'Inter', sans-serif;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #6366f1;
+  /* Indigo-500 */
+  --primary-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f8fafc;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #6366f1;
+  --radius: 0.75rem;
 
-  /* Gradient stops for body */
-  --bg-gradient-start: #f8fafc;
-  --bg-gradient-mid: #eff6ff;
-  --bg-gradient-end: #eef2ff;
+  --font-inter: 'Inter', sans-serif;
 }
 
 [data-theme='dark'] {
-  --background: #020617;
+  /* Dark Mode: Deep Midnight Blue */
+  --background: #0b0f1a;
   --foreground: #f8fafc;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-
-  /* Deep Slate Gradient */
-  --bg-gradient-start: #0f172a;
-  --bg-gradient-mid: #1e293b;
-  --bg-gradient-end: #0f172a;
+  --card: #161b22;
+  --card-foreground: #f8fafc;
+  --popover: #161b22;
+  --popover-foreground: #f8fafc;
+  --primary: #818cf8;
+  /* Indigo-400 */
+  --primary-foreground: #ffffff;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: #30363d;
+  --input: #30363d;
+  --ring: #818cf8;
 }
 
 body {
   color: var(--foreground);
-  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
-  background-attachment: fixed;
+  background: var(--background);
   font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,11 +62,17 @@ body {
     text-wrap: balance;
   }
 
-  .glass-panel {
-    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-lg shadow-indigo-500/5 dark:bg-slate-900/50 dark:border-slate-700/50 dark:shadow-slate-900/50;
+  /* Premium Shadow Utilities */
+  .shadow-premium {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
   }
 
-  .glass-card {
-    @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-sm transition-all duration-300 dark:bg-slate-800/40 dark:border-slate-700/50 dark:shadow-none;
+  .dark .shadow-premium {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Smooth Transitions */
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
   }
 }
