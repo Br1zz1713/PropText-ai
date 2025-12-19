@@ -54,10 +54,11 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
                     <div className="group relative">
                         {user?.user_metadata?.avatar_url ? (
                             <div className="relative h-10 w-10 overflow-hidden rounded-full avatar-glow transition-transform duration-200 group-hover:scale-105">
-                                <img
+                                <Image
                                     src={user.user_metadata.avatar_url}
                                     alt="Avatar"
-                                    className="h-full w-full object-cover"
+                                    fill
+                                    className="object-cover"
                                     referrerPolicy="no-referrer"
                                 />
                             </div>
