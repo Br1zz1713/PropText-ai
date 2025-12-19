@@ -6,7 +6,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function DashboardHeader() {
+import { cn } from "@/lib/utils";
+
+interface DashboardHeaderProps {
+    credits: number;
+}
+
+export default function DashboardHeader({ credits }: DashboardHeaderProps) {
     const router = useRouter();
     const supabase = createClient();
     const [user, setUser] = useState<any>(null);
@@ -30,6 +36,17 @@ export default function DashboardHeader() {
             <h1 className="text-xl font-bold text-gray-900 lg:hidden">PropText.ai</h1>
 
             <div className="ml-auto flex items-center gap-4">
+                {/* Credits Badge */}
+                <div className={cn(
+                    "flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold shadow-sm ring-1",
+                    credits > 0
+                        ? "bg-green-50 text-green-700 ring-green-600/20"
+                        : "bg-red-50 text-red-700 ring-red-600/20"
+                )}>
+                    <span>Credits:</span>
+                    <span>{credits}/3</span>
+                </div>
+
                 <div className="flex items-center gap-3 rounded-full bg-white/50 px-3 py-1.5 shadow-sm ring-1 ring-gray-200/50">
                     {user?.user_metadata?.avatar_url ? (
                         <Image

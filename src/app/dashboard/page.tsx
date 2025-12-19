@@ -227,7 +227,7 @@ export default function GeneratorPage() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-base font-semibold text-white shadow-glow transition-all hover:bg-indigo-700 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed mt-2"
+                                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 px-6 py-4 text-base font-bold text-white shadow-[0_0_20px_rgba(79,70,229,0.3)] transition-all hover:bg-indigo-700 hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] disabled:opacity-70 disabled:cursor-not-allowed mt-2 transform active:scale-[0.98]"
                             >
                                 {loading ? (
                                     <>

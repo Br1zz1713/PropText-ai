@@ -11,11 +11,9 @@ const links = [
     { href: "/dashboard/billing", label: "Billing", icon: Settings },
 ];
 
-interface DashboardSidebarProps {
-    credits: number;
-}
+interface DashboardSidebarProps { }
 
-export default function DashboardSidebar({ credits }: DashboardSidebarProps) {
+export default function DashboardSidebar() {
     const pathname = usePathname();
 
     return (
@@ -54,35 +52,13 @@ export default function DashboardSidebar({ credits }: DashboardSidebarProps) {
             </div>
 
             <div className="p-4 border-t border-gray-100">
-                <div className="rounded-xl bg-gray-50 p-4 border border-gray-100">
-                    <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Credits</span>
-                        <span className={cn(
-                            "text-sm font-bold",
-                            credits > 0 ? "text-indigo-600" : "text-red-500"
-                        )}>
-                            {credits} / 3 Free
-                        </span>
-                    </div>
-                    {/* Progress Bar */}
-                    <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden mb-3">
-                        <div
-                            className={cn("h-full rounded-full transition-all duration-500", credits > 0 ? "bg-indigo-500" : "bg-red-500")}
-                            style={{ width: `${Math.min((credits / 3) * 100, 100)}%` }}
-                        />
-                    </div>
-
-                    {credits === 0 ? (
-                        <Link
-                            href="/dashboard/billing"
-                            className="flex w-full items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700 transition-colors"
-                        >
-                            Buy More Credits
-                        </Link>
-                    ) : (
-                        <p className="text-xs text-center text-gray-400">Refills monthly</p>
-                    )}
-                </div>
+                <Link
+                    href="/dashboard/billing"
+                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-50 px-3 py-2.5 text-sm font-bold text-indigo-600 hover:bg-indigo-100 transition-colors"
+                >
+                    <Settings size={18} />
+                    Settings & Billing
+                </Link>
             </div>
         </aside>
     );

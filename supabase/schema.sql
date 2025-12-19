@@ -22,8 +22,8 @@ create policy "Users can update their own profile" on public.profiles
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, email)
-  values (new.id, new.email);
+  insert into public.profiles (id, email, credits_left)
+  values (new.id, new.email, 3);
   return new;
 end;
 $$ language plpgsql security definer;
