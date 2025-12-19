@@ -47,7 +47,7 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
 
                 <ThemeToggle />
 
-                <div className="flex items-center gap-3 pl-2">
+                <div className="flex items-center gap-4 pl-4 border-l border-border ml-2">
                     <div className="group relative">
                         {user?.user_metadata?.avatar_url ? (
                             <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-background border border-border shadow-sm transition-transform duration-200 group-hover:scale-105">
@@ -60,10 +60,8 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
                                 />
                             </div>
                         ) : (
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-muted-foreground ring-2 ring-background border border-border shadow-sm">
-                                <span className="text-xs font-bold">
-                                    {user?.email?.[0].toUpperCase() || "U"}
-                                </span>
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-muted-foreground ring-2 ring-background border border-border shadow-sm">
+                                <User size={16} />
                             </div>
                         )}
                         <div className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-background bg-emerald-500 shadow-sm"></div>

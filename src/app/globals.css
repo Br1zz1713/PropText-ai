@@ -81,7 +81,7 @@
 }
 
 body {
-  @apply bg-background text-foreground tracking-tight antialiased;
+  @apply bg-background text-foreground tracking-tight antialiased transition-colors duration-300 ease-in-out;
   font-family: var(--font-inter);
 }
 
