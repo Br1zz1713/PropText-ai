@@ -97,9 +97,9 @@ export default function GeneratorPage() {
                     <form onSubmit={handleSubmit} className="space-y-6">
 
                         {/* Section: Basic Info */}
-                        <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
-                            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-foreground">
-                                <div className="flex h-5 w-5 items-center justify-center rounded bg-primary/10 text-primary">
+                        <div className="bg-card border border-border p-8 rounded-xl shadow-xl">
+                            <h3 className="mb-6 flex items-center gap-3 text-xs uppercase tracking-wider font-bold text-muted-foreground">
+                                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                                     <span className="text-xs font-bold">1</span>
                                 </div>
                                 Property Details
@@ -107,12 +107,12 @@ export default function GeneratorPage() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="col-span-2 sm:col-span-1">
-                                    <label className="mb-2 block text-sm font-medium text-foreground">Property Type</label>
+                                    <label className="mb-2 block">Property Type</label>
                                     <select
                                         name="propertyType"
                                         value={formData.propertyType}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus-glow transition-all"
                                     >
                                         <option>Apartment</option>
                                         <option>House</option>
@@ -123,14 +123,14 @@ export default function GeneratorPage() {
                                     </select>
                                 </div>
                                 <div className="col-span-2 sm:col-span-1">
-                                    <label className="mb-2 block text-sm font-medium text-foreground">Size (m²)</label>
+                                    <label className="mb-2 block">Size (m²)</label>
                                     <input
                                         type="number"
                                         name="sqMeters"
                                         required
                                         value={formData.sqMeters}
                                         onChange={handleChange}
-                                        className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                                        className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus-glow transition-all"
                                         placeholder="e.g. 120"
                                     />
                                 </div>
@@ -160,14 +160,14 @@ export default function GeneratorPage() {
                         </div>
 
                         {/* Section: Location & Features */}
-                        <div className="bg-card border border-border p-6 rounded-xl shadow-sm">
-                            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-foreground">
-                                <div className="flex h-5 w-5 items-center justify-center rounded bg-primary/10 text-primary">
+                        <div className="bg-card border border-border p-8 rounded-xl shadow-xl">
+                            <h3 className="mb-6 flex items-center gap-3 text-xs uppercase tracking-wider font-bold text-muted-foreground">
+                                <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                                     <span className="text-xs font-bold">2</span>
                                 </div>
                                 Location & Features
                             </h3>
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-foreground">Address / Area</label>
                                     <input
@@ -242,7 +242,7 @@ export default function GeneratorPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
+                            className="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-sm transition-all hover:scale-[1.02] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
                         >
                             {loading ? (
                                 <>

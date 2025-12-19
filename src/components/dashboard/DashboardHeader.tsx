@@ -33,24 +33,27 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
     };
 
     return (
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-background/80 px-6 backdrop-blur-md">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-background/95 px-6 backdrop-blur-sm">
             <h1 className="text-sm font-semibold text-foreground lg:hidden">PropText.ai</h1>
 
-            <div className="ml-auto flex items-center gap-4">
-                {/* Credits Badge - Simplified */}
-                <div className="flex items-center gap-1.5 rounded-full border border-border bg-secondary/50 px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
-                    <span className={cn("flex h-1.5 w-1.5 rounded-full", credits > 0 ? "bg-emerald-500" : "bg-red-500")}></span>
-                    <span>{credits} / 3</span>
+            <div className="ml-auto flex items-center gap-6">
+                {/* Credits Badge - Pill Style */}
+                <div className="flex items-center gap-2 rounded-full bg-green-100 dark:bg-green-900/20 px-3 py-1.5 border border-green-200 dark:border-green-800">
+                    <div className={cn(
+                        "h-2 w-2 rounded-full",
+                        credits > 0 ? "bg-green-500" : "bg-red-500"
+                    )}></div>
+                    <span className="text-xs font-semibold text-green-700 dark:text-green-400">
+                        {credits} / 3 Credits
+                    </span>
                 </div>
-
-                <div className="h-4 w-px bg-border mx-2"></div>
 
                 <ThemeToggle />
 
-                <div className="flex items-center gap-4 pl-6 border-l border-border ml-4">
+                <div className="flex items-center gap-3 pl-6 border-l border-border">
                     <div className="group relative">
                         {user?.user_metadata?.avatar_url ? (
-                            <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-background border border-border shadow-sm transition-transform duration-200 group-hover:scale-105">
+                            <div className="relative h-10 w-10 overflow-hidden rounded-full avatar-glow transition-transform duration-200 group-hover:scale-105">
                                 <img
                                     src={user.user_metadata.avatar_url}
                                     alt="Avatar"
@@ -59,7 +62,7 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
                                 />
                             </div>
                         ) : (
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground ring-2 ring-background border border-border shadow-sm">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground avatar-glow">
                                 <User size={20} />
                             </div>
                         )}
@@ -67,7 +70,7 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
                     </div>
 
                     <div className="hidden sm:block text-right">
-                        <p className="text-sm font-medium text-foreground leading-none">
+                        <p className="text-sm font-semibold text-foreground leading-none">
                             {user?.user_metadata?.full_name || "User"}
                         </p>
                     </div>
@@ -75,7 +78,7 @@ export default function DashboardHeader({ credits }: DashboardHeaderProps) {
 
                 <button
                     onClick={handleSignOut}
-                    className="ml-2 flex items-center justify-center rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-200"
+                    className="ml-2 flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-200"
                     title="Sign Out"
                 >
                     <LogOut size={18} />
