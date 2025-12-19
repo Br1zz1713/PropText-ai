@@ -6,6 +6,7 @@
   :root {
     /* Light Mode: Pure White High-Contrast */
     --background: 0 0% 100%;
+    /* Pure White */
     --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
@@ -14,7 +15,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 221 83% 53%;
+    --primary: 243 75% 59%;
+    /* Indigo/Royal Blue approx */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%;
@@ -31,23 +33,23 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 221 83% 53%;
+    --ring: 243 75% 59%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    /* Dark Mode: Deep Midnight Black */
-    --background: 222 84% 5%;
+    /* Dark Mode: Deepest Black (#030712 is 224, 71%, 4%) */
+    --background: 224 71% 4%;
     --foreground: 210 40% 98%;
 
-    --card: 220 26% 9%;
+    --card: 224 71% 4%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 26% 9%;
+    --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 221 83% 53%;
+    --primary: 243 75% 59%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 33% 17%;
@@ -59,12 +61,13 @@
     --accent: 221 83% 53%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 33% 17%;
+    --border: 217 33% 10%;
+    /* Darker border for deep black */
     --input: 217 33% 17%;
-    --ring: 221 83% 53%;
+    --ring: 243 75% 59%;
   }
 }
 

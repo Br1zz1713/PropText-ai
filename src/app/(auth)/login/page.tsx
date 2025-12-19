@@ -101,11 +101,11 @@ function LoginForm() {
     };
 
     return (
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-soft">
-            <h2 className="text-center text-xl font-semibold text-gray-900">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-xl dark:border-border/50">
+            <h2 className="text-center text-xl font-bold tracking-tight text-foreground">
                 Welcome back
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-muted-foreground">
                 Sign in to generate more descriptions
             </p>
 
@@ -113,10 +113,10 @@ function LoginForm() {
                 <button
                     onClick={() => handleSocialLogin("google")}
                     disabled={loading}
-                    className="flex w-full items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex w-full items-center justify-center rounded-xl border border-input bg-background/50 px-4 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                     {loading ? (
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin text-gray-400" />
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin text-muted-foreground" />
                     ) : (
                         <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
                             <path
@@ -142,10 +142,10 @@ function LoginForm() {
 
                 <div className="relative">
                     <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t border-gray-200" />
+                        <span className="w-full border-t border-border" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-white px-2 text-gray-500">
+                        <span className="bg-card px-2 text-muted-foreground">
                             Or continue with
                         </span>
                     </div>
@@ -155,7 +155,7 @@ function LoginForm() {
                     <div>
                         <label
                             htmlFor="email"
-                            className="block text-sm font-medium text-gray-700"
+                            className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5"
                         >
                             Email address
                         </label>
@@ -165,14 +165,14 @@ function LoginForm() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="mt-1 block w-full rounded-xl border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            className="block w-full rounded-xl border border-input bg-secondary/30 px-4 py-2.5 text-foreground shadow-sm placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm transition-all"
                             placeholder="you@example.com"
                         />
                     </div>
                     <div>
                         <label
                             htmlFor="password"
-                            className="block text-sm font-medium text-gray-700"
+                            className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5"
                         >
                             Password
                         </label>
@@ -182,13 +182,13 @@ function LoginForm() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 block w-full rounded-xl border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            className="block w-full rounded-xl border border-input bg-secondary/30 px-4 py-2.5 text-foreground shadow-sm placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm transition-all"
                             placeholder="••••••••"
                         />
                     </div>
 
                     {error && (
-                        <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
+                        <div className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive border border-destructive/20">
                             <div className="flex items-start gap-2">
                                 <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                                 <div className="flex flex-col gap-1">
@@ -197,7 +197,7 @@ function LoginForm() {
                                         <button
                                             type="button"
                                             onClick={handleResend}
-                                            className="text-left font-semibold underline hover:text-red-800"
+                                            className="text-left font-semibold underline hover:text-destructive/80"
                                         >
                                             Resend confirmation email
                                         </button>
@@ -210,7 +210,7 @@ function LoginForm() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition-colors hover:bg-indigo-700 disabled:opacity-50"
+                        className="flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? (
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -220,11 +220,11 @@ function LoginForm() {
                 </form>
             </div>
 
-            <div className="mt-6 text-center text-sm">
-                <span className="text-gray-500">Don&apos;t have an account? </span>
+            <div className="mt-8 text-center text-sm">
+                <span className="text-muted-foreground">Don&apos;t have an account? </span>
                 <Link
                     href="/signup"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    className="font-semibold text-primary hover:text-primary/80 transition-colors"
                 >
                     Sign up
                 </Link>

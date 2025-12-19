@@ -61,11 +61,11 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-soft">
-            <h2 className="text-center text-xl font-semibold text-gray-900">
+        <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-xl dark:border-border/50">
+            <h2 className="text-center text-xl font-bold tracking-tight text-foreground">
                 Create your account
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-muted-foreground">
                 Start generating property descriptions in seconds
             </p>
 
@@ -73,7 +73,7 @@ export default function SignupPage() {
                 <div>
                     <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5"
                     >
                         Email address
                     </label>
@@ -83,14 +83,14 @@ export default function SignupPage() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="mt-1 block w-full rounded-xl border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                        className="block w-full rounded-xl border border-input bg-secondary/30 px-4 py-2.5 text-foreground shadow-sm placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm transition-all"
                         placeholder="you@example.com"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="password"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5"
                     >
                         Password
                     </label>
@@ -100,13 +100,13 @@ export default function SignupPage() {
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 block w-full rounded-xl border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                        className="block w-full rounded-xl border border-input bg-secondary/30 px-4 py-2.5 text-foreground shadow-sm placeholder:text-muted-foreground/50 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm transition-all"
                         placeholder="Create a password"
                     />
                 </div>
 
                 {error && (
-                    <div className="rounded-md bg-red-50 p-2 text-sm text-red-500">
+                    <div className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive border border-destructive/20">
                         {error}
                     </div>
                 )}
@@ -114,7 +114,7 @@ export default function SignupPage() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="flex w-full items-center justify-center rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-soft transition-colors hover:bg-indigo-700 disabled:opacity-50"
+                    className="flex w-full items-center justify-center rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {loading ? (
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -123,11 +123,11 @@ export default function SignupPage() {
                 </button>
             </form>
 
-            <div className="mt-6 text-center text-sm">
-                <span className="text-gray-500">Already have an account? </span>
+            <div className="mt-8 text-center text-sm">
+                <span className="text-muted-foreground">Already have an account? </span>
                 <Link
                     href="/login"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    className="font-semibold text-primary hover:text-primary/80 transition-colors"
                 >
                     Log in
                 </Link>
