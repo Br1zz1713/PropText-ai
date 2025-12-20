@@ -21,12 +21,28 @@ export default async function DashboardLayout({
     let credits = 3;
 
     if (user) {
-        const { data: profile } = await supabase
+        const { data: profile, error } = await supabase
             .from("profiles")
             .select("credits_left")
             .eq("id", user.id)
-            .single();
-        credits = profile?.credits_left ?? 3;
+            .maybeSingle();
+
+        if (!profile) {
+            // Auto-create profile if missing
+            const { error: insertError } = await supabase.from("profiles").insert({
+                id: user.id,
+                email: user.email,
+                credits_left: 3,
+                subscription_status: "free",
+            });
+
+            if (insertError) {
+                console.error("Error creating profile:", insertError);
+            }
+            credits = 3;
+        } else {
+            credits = profile.credits_left ?? 3;
+        }
     }
 
     return (

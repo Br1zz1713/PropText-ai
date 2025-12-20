@@ -11,6 +11,7 @@ export default function GeneratorPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
     const [result, setResult] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
 
@@ -267,13 +268,42 @@ export default function GeneratorPage() {
                                         <div className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
                                     </div>
                                     {result && (
-                                        <button
-                                            onClick={copyToClipboard}
-                                            className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all"
-                                        >
-                                            {copied ? <Check size={14} /> : <Copy size={14} />}
-                                            {copied ? "Copied" : "Copy"}
-                                        </button>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={async () => {
+                                                    setSaving(true);
+                                                    try {
+                                                        const res = await fetch("/api/listings", {
+                                                            method: "POST",
+                                                            headers: { "Content-Type": "application/json" },
+                                                            body: JSON.stringify({
+                                                                description: result,
+                                                                ...formData
+                                                            }),
+                                                        });
+                                                        if (!res.ok) throw new Error("Failed to save");
+                                                        toast.success("Saved to My Listings");
+                                                        router.refresh();
+                                                    } catch (error) {
+                                                        toast.error("Failed to save listing");
+                                                    } finally {
+                                                        setSaving(false);
+                                                    }
+                                                }}
+                                                disabled={saving}
+                                                className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all disabled:opacity-50"
+                                            >
+                                                {saving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                                                {saving ? "Saving..." : "Save"}
+                                            </button>
+                                            <button
+                                                onClick={copyToClipboard}
+                                                className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all"
+                                            >
+                                                {copied ? <Check size={14} /> : <Copy size={14} />}
+                                                {copied ? "Copied" : "Copy"}
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
 

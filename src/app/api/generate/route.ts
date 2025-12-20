@@ -12,17 +12,30 @@ export async function POST(req: Request) {
     }
 
     // 2. Check Credits & Subscription
-    const { data: profile } = await supabase
+    let { data: profile } = await supabase
         .from("profiles")
         .select("credits_left, subscription_status")
         .eq("id", user.id)
         .single();
 
     if (!profile) {
-        return NextResponse.json(
-            { error: "User profile not found." },
-            { status: 404 }
-        );
+        // Attempt to auto-create logic here as well for robustness
+        const { error: insertError } = await supabase.from("profiles").insert({
+            id: user.id,
+            email: user.email,
+            credits_left: 3,
+            subscription_status: "free",
+        });
+
+        if (insertError) {
+            return NextResponse.json(
+                { error: "User profile not found and creation failed." },
+                { status: 404 }
+            );
+        }
+
+        // Retry fetch or just proceed with defaults
+        profile = { credits_left: 3, subscription_status: 'free' };
     }
 
     const isPro = profile.subscription_status === 'active';
