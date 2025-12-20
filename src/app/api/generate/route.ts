@@ -69,6 +69,10 @@ export async function POST(req: Request) {
             language
         } = await req.json();
 
+        if (Number(sqMeters) < 0 || Number(bedrooms) < 0 || Number(bathrooms) < 0) {
+            return NextResponse.json({ error: "Values cannot be negative" }, { status: 400 });
+        }
+
         // 3. Generate Description
         const prompt = `
       Act as a professional real estate copywriter. Write a compelling property description for a listing in Europe.
@@ -104,6 +108,7 @@ export async function POST(req: Request) {
         const title = `${propertyType} in ${location}`;
 
         await Promise.all([
+            // Generations Table
             supabase.from("generations").insert({
                 user_id: user.id,
                 input_data: { propertyType, sqMeters, bedrooms, bathrooms, location, amenities, usp },
@@ -111,12 +116,13 @@ export async function POST(req: Request) {
                 language,
                 style,
             }),
+            // Listings Table
             supabase.from("listings").insert({
                 user_id: user.id,
-                title,
-                property_type: propertyType, // Fix: match column name property_type
-                description,
-                location,
+                title,                   // Explicitly requested
+                property_type: propertyType, // Fixed column name
+                description,             // Explicitly requested
+                location,                // Explicitly requested
                 property_details: { sqMeters, bedrooms, bathrooms, amenities, style, language }
             })
         ]);
