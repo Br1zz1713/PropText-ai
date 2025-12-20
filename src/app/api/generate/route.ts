@@ -45,7 +45,9 @@ export async function POST(req: Request) {
     }
 
     const isPro = profile.subscription_status === 'active';
-    const hasCredits = profile.credits_remaining > 0;
+    // Default to 3 if null
+    const credits = profile.credits_remaining ?? 3;
+    const hasCredits = credits > 0;
 
     if (!isPro && !hasCredits) {
         return NextResponse.json(
@@ -112,7 +114,7 @@ export async function POST(req: Request) {
             supabase.from("listings").insert({
                 user_id: user.id,
                 title,
-                type: propertyType,
+                property_type: propertyType, // Fix: match column name property_type
                 description,
                 location,
                 property_details: { sqMeters, bedrooms, bathrooms, amenities, style, language }

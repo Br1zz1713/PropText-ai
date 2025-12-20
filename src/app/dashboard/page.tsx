@@ -65,7 +65,8 @@ export default function GeneratorPage() {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.error || "Something went wrong");
+                // Show actual error from API
+                throw new Error(data.error || `Error ${res.status}: ${data.message || "Something went wrong"}`);
             }
 
             setResult(data.description);
