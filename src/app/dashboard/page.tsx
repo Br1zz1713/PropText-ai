@@ -17,26 +17,29 @@ export default function GeneratorPage() {
 
     const supabase = createClient();
 
+    const [credits, setCredits] = useState<number | null>(null);
+
     useEffect(() => {
-        const showWelcome = async () => {
+        const init = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data: profile } = await supabase.from("profiles").select("credits_remaining").eq("id", user.id).single();
+                if (profile) setCredits(profile.credits_remaining ?? 0);
+            }
+
             if (searchParams.get("welcome")) {
-                try {
-                    const { data: { user } } = await supabase.auth.getUser();
-                    const name = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Guest";
-                    toast.success(`Welcome back, ${name}`);
-                    router.replace("/dashboard");
-                } catch (error) {
-                    // Fail silently for auth bypass/guest mode
-                    console.log("Guest access");
-                }
+                // ... welcome toast logic
+                const name = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Guest";
+                toast.success(`Welcome back, ${name}`);
+                router.replace("/dashboard");
             }
         };
-        showWelcome();
+        init();
     }, [searchParams, router, supabase]);
 
     const [formData, setFormData] = useState({
         propertyType: "Apartment",
-        sqMeters: "",
+        sqm: "",
         bedrooms: "",
         bathrooms: "",
         location: "",
@@ -137,8 +140,8 @@ export default function GeneratorPage() {
                                         <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Size (m²)</label>
                                         <input
                                             type="number"
-                                            name="sqMeters"
-                                            value={formData.sqMeters}
+                                            name="sqm"
+                                            value={formData.sqm}
                                             onChange={handleChange}
                                             required
                                             className="w-full rounded-xl bg-white/5 border-transparent px-4 py-3.5 text-sm font-medium text-white transition-all focus:bg-white/10 focus:ring-1 focus:ring-white/20 outline-none placeholder:text-slate-600"
@@ -237,7 +240,7 @@ export default function GeneratorPage() {
 
                             <button
                                 type="submit"
-                                disabled={loading}
+                                disabled={loading || credits === 0}
                                 className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-white px-8 py-4 text-base font-bold text-black transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
                             >
                                 {loading ? (
@@ -245,6 +248,8 @@ export default function GeneratorPage() {
                                         <Loader2 className="h-5 w-5 animate-spin" />
                                         <span>Generating...</span>
                                     </>
+                                ) : credits === 0 ? (
+                                    <span>No Credits Remaining</span>
                                 ) : (
                                     <>
                                         <Sparkles className="h-5 w-5" />
@@ -279,6 +284,9 @@ export default function GeneratorPage() {
 
                                                         const title = `${formData.propertyType} in ${formData.location}`;
 
+                                                        // Explicit Console Log
+                                                        console.log("Attempting to save listing:", { user_id: user.id, title, ...formData });
+
                                                         const { error } = await supabase.from("listings").insert({
                                                             user_id: user.id,
                                                             title: title,
@@ -286,7 +294,7 @@ export default function GeneratorPage() {
                                                             property_type: formData.propertyType,
                                                             location: formData.location,
                                                             property_details: {
-                                                                sqMeters: formData.sqMeters,
+                                                                sqm: formData.sqm, // UNIFIED: sqm
                                                                 bedrooms: formData.bedrooms,
                                                                 bathrooms: formData.bathrooms,
                                                                 amenities: formData.amenities,
@@ -300,8 +308,8 @@ export default function GeneratorPage() {
                                                         toast.success("Saved!");
                                                         router.refresh();
                                                     } catch (error: any) {
-                                                        console.error(error);
-                                                        window.alert(`Save Failed: ${error.message}`);
+                                                        console.error("Save Error:", error);
+                                                        window.alert(`Save Failed: ${error.message || error.details || JSON.stringify(error)}`);
                                                     } finally {
                                                         setSaving(false);
                                                     }

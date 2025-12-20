@@ -1,15 +1,22 @@
 "use client";
 
-import { User, Shield, Key, LogOut, Bell, Loader2 } from "lucide-react";
+import { User, Shield, Key, LogOut, Bell, Loader2, Save, Check, CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function ProfilePage() {
     const [user, setUser] = useState<any>(null);
     const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+
+    // Branding State
+    const [agencyName, setAgencyName] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+
     const supabase = createClient();
     const router = useRouter();
 
@@ -20,6 +27,10 @@ export default function ProfilePage() {
                 setUser(user);
                 const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
                 setProfile(data);
+                if (data) {
+                    setAgencyName(data.agency_name || "");
+                    setPhoneNumber(data.phone_number || "");
+                }
             }
             setLoading(false);
         };
@@ -29,6 +40,27 @@ export default function ProfilePage() {
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         router.push("/login");
+    };
+
+    const handleSaveProfile = async () => {
+        setSaving(true);
+        try {
+            const { error } = await supabase
+                .from("profiles")
+                .update({
+                    agency_name: agencyName,
+                    phone_number: phoneNumber
+                })
+                .eq("id", user.id);
+
+            if (error) throw error;
+            toast.success("Profile updated successfully");
+        } catch (error: any) {
+            console.error("Profile update error:", error);
+            toast.error("Failed to update profile");
+        } finally {
+            setSaving(false);
+        }
     };
 
     if (loading) {
@@ -45,6 +77,7 @@ export default function ProfilePage() {
     const email = user.email;
     const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
     const subscription = profile?.subscription_status === 'active' ? 'Pro Agent' : 'Free Plan';
+    const credits = profile?.credits_remaining ?? 0;
 
     return (
         <div className="max-w-4xl mx-auto pb-20">
@@ -71,6 +104,12 @@ export default function ProfilePage() {
 
                         <h2 className="text-xl font-bold text-foreground">{fullName}</h2>
                         <p className="text-sm text-muted-foreground uppercase tracking-widest font-medium mt-1">{subscription}</p>
+
+                        {/* Credits Display */}
+                        <div className="mt-6 flex items-center justify-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm font-medium border border-white/10">
+                            <CreditCard size={14} className="text-emerald-400" />
+                            <span className="text-emerald-400">{credits} Credits</span>
+                        </div>
                     </div>
 
                     <div className="rounded-2xl border border-white/10 bg-white/5 p-1">
@@ -120,27 +159,45 @@ export default function ProfilePage() {
                         </div>
                     </section>
 
-                    {/* Section: API Key */}
+                    {/* Section: Branding & Contact */}
                     <section className="space-y-6">
                         <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                            <h3 className="text-lg font-semibold text-foreground">API Configuration</h3>
-                            <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">Active</span>
+                            <h3 className="text-lg font-semibold text-foreground">Branding & Contact</h3>
+                            <span className="text-xs text-muted-foreground">Used for auto-signatures</span>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Secret Key</label>
-                            <div className="relative">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                                    <Key size={16} />
-                                </div>
+                        <div className="grid grid-cols-1 gap-6">
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Agency Name</label>
                                 <input
-                                    type="password"
-                                    defaultValue="sk_live_XXXXXXXXXXXXXXXXXXXXXX"
-                                    readOnly
-                                    className="w-full rounded-xl border border-white/10 bg-white/5 pl-11 pr-24 py-3 text-sm font-mono text-muted-foreground focus:text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all"
+                                    type="text"
+                                    value={agencyName}
+                                    onChange={(e) => setAgencyName(e.target.value)}
+                                    placeholder="e.g. Luxury Estates"
+                                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all placeholder:text-slate-600"
                                 />
                             </div>
-                            <p className="text-xs text-muted-foreground">Managed by system administrator.</p>
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Phone Number</label>
+                                <input
+                                    type="text"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    placeholder="e.g. +1 (555) 000-0000"
+                                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all placeholder:text-slate-600"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end pt-2">
+                            <button
+                                onClick={handleSaveProfile}
+                                disabled={saving}
+                                className="flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-black transition-all hover:bg-slate-200 disabled:opacity-50"
+                            >
+                                {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                                {saving ? "Saving..." : "Save Changes"}
+                            </button>
                         </div>
                     </section>
 
