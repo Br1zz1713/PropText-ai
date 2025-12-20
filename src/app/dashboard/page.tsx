@@ -28,7 +28,6 @@ export default function GeneratorPage() {
             }
 
             if (searchParams.get("welcome")) {
-                // ... welcome toast logic
                 const name = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Guest";
                 toast.success(`Welcome back, ${name}`);
                 router.replace("/dashboard");
@@ -68,7 +67,6 @@ export default function GeneratorPage() {
             const data = await res.json();
 
             if (!res.ok) {
-                // Show actual error from API
                 throw new Error(data.error || `Error ${res.status}: ${data.message || "Something went wrong"}`);
             }
 
@@ -79,6 +77,45 @@ export default function GeneratorPage() {
             toast.error(error.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleSave = async () => {
+        if (!result) return;
+        setSaving(true);
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error("User not authenticated");
+
+            const title = `${formData.propertyType} in ${formData.location}`;
+
+            console.log("Attempting to save listing:", { user_id: user.id, title, ...formData });
+
+            const { error } = await supabase.from("listings").insert({
+                user_id: user.id,
+                title: title,
+                description: result,
+                property_type: formData.propertyType,
+                location: formData.location,
+                property_details: {
+                    sqm: formData.sqm,
+                    bedrooms: formData.bedrooms,
+                    bathrooms: formData.bathrooms,
+                    amenities: formData.amenities,
+                    style: formData.style,
+                    language: formData.language
+                }
+            });
+
+            if (error) throw error;
+
+            toast.success("Saved to My Listings!");
+            router.refresh();
+        } catch (error: any) {
+            console.error("Save Error:", error);
+            toast.error(`Save Failed: ${error.message}`);
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -259,32 +296,70 @@ export default function GeneratorPage() {
                             </button>
                         </form>
                     </div>
-                    <div className="h-4 w-3/4 rounded-full bg-white/10" />
-                    <div className="h-4 w-full rounded-full bg-white/10" />
-                    <div className="h-4 w-5/6 rounded-full bg-white/10" />
-                    <div className="h-4 w-full rounded-full bg-white/10" />
-                    <div className="h-4 w-2/3 rounded-full bg-white/10" />
 
-                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                    {/* Right Column: Preview (Span 5) */}
+                    <div className="lg:col-span-5 sticky top-8">
+                        <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl min-h-[500px] flex flex-col relative overflow-hidden">
+
+                            {/* Actions Header */}
+                            {result && (
+                                <div className="flex items-center justify-between mb-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                                    <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
+                                        Editable Preview
+                                    </span>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={handleSave}
+                                            disabled={saving}
+                                            className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all disabled:opacity-50"
+                                        >
+                                            {saving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                                            {saving ? "Saving..." : "Save"}
+                                        </button>
+                                        <button
+                                            onClick={copyToClipboard}
+                                            className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all"
+                                        >
+                                            {copied ? <Check size={14} /> : <Copy size={14} />}
+                                            {copied ? "Copied" : "Copy"}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Content */}
+                            {loading ? (
+                                <div className="space-y-6 animate-pulse relative">
+                                    {/* Apple-Style Skeleton */}
+                                    <div className="h-4 w-3/4 rounded-full bg-white/10" />
+                                    <div className="h-4 w-full rounded-full bg-white/10" />
+                                    <div className="h-4 w-5/6 rounded-full bg-white/10" />
+                                    <div className="h-4 w-full rounded-full bg-white/10" />
+                                    <div className="h-4 w-2/3 rounded-full bg-white/10" />
+
+                                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+                                </div>
+                            ) : result ? (
+                                <textarea
+                                    value={result}
+                                    onChange={(e) => setResult(e.target.value)}
+                                    className="flex-1 w-full resize-none bg-transparent text-sm leading-relaxed text-slate-200 outline-none placeholder:text-slate-600 font-sans tracking-tight h-full p-0 border-none focus:ring-0"
+                                    placeholder="Generated text will appear here..."
+                                />
+                            ) : (
+                                <div className="flex flex-1 flex-col items-center justify-center text-center opacity-40">
+                                    <Sparkles className="h-12 w-12 text-white mb-6" strokeWidth={1} />
+                                    <p className="text-sm font-medium tracking-widest uppercase text-slate-400">
+                                        Ready to Generate
+                                    </p>
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
+
                 </div>
-                ) : result ? (
-                <div className="prose prose-lg prose-invert max-w-none font-sans leading-relaxed text-slate-200 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-700">
-                    {result}
-                </div>
-                ) : (
-                <div className="flex h-[400px] flex-col items-center justify-center text-center opacity-40">
-                    <Sparkles className="h-12 w-12 text-white mb-6" strokeWidth={1} />
-                    <p className="text-sm font-medium tracking-widest uppercase text-slate-400">Ready to Generate</p>
-                </div>
-                    )}
             </div>
-
         </div>
-        </div >
-                    </div >
-
-                </div >
-            </div >
-        </div >
     );
 }
