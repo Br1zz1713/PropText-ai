@@ -274,19 +274,34 @@ export default function GeneratorPage() {
                                                 onClick={async () => {
                                                     setSaving(true);
                                                     try {
-                                                        const res = await fetch("/api/listings", {
-                                                            method: "POST",
-                                                            headers: { "Content-Type": "application/json" },
-                                                            body: JSON.stringify({
-                                                                description: result,
-                                                                ...formData
-                                                            }),
+                                                        const { data: { user } } = await supabase.auth.getUser();
+                                                        if (!user) throw new Error("User not authenticated");
+
+                                                        const title = `${formData.propertyType} in ${formData.location}`;
+
+                                                        const { error } = await supabase.from("listings").insert({
+                                                            user_id: user.id,
+                                                            title: title,
+                                                            description: result,
+                                                            property_type: formData.propertyType,
+                                                            location: formData.location,
+                                                            property_details: {
+                                                                sqMeters: formData.sqMeters,
+                                                                bedrooms: formData.bedrooms,
+                                                                bathrooms: formData.bathrooms,
+                                                                amenities: formData.amenities,
+                                                                style: formData.style,
+                                                                language: formData.language
+                                                            }
                                                         });
-                                                        if (!res.ok) throw new Error("Failed to save");
-                                                        toast.success("Saved to My Listings");
+
+                                                        if (error) throw error;
+
+                                                        toast.success("Saved!");
                                                         router.refresh();
-                                                    } catch (error) {
-                                                        toast.error("Failed to save listing");
+                                                    } catch (error: any) {
+                                                        console.error(error);
+                                                        window.alert(`Save Failed: ${error.message}`);
                                                     } finally {
                                                         setSaving(false);
                                                     }
