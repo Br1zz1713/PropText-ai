@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, Sparkles, Copy, Check, Info, Home, MapPin, List, Edit3 } from "lucide-react";
+import { Loader2, Sparkles, Copy, Check, Home, MapPin, Edit3 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { createClient } from "@/utils/supabase/client";
@@ -82,178 +82,142 @@ export default function GeneratorPage() {
     };
 
     return (
-        <div className="min-h-screen bg-background pb-20 pt-8 sm:pt-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Page Header */}
+        <div className="min-h-screen pb-20 pt-8 sm:pt-12">
+            <div className="max-w-7xl mx-auto px-6">
+
+                {/* Header */}
                 <div className="mb-12 max-w-2xl">
-                    <h1 className="text-3xl font-bold tracking-tighter text-foreground sm:text-4xl md:text-5xl">
-                        New Listing <span className="text-muted-foreground/40">/ Generator</span>
+                    <h1 className="text-4xl font-bold tracking-tighter text-foreground sm:text-5xl">
+                        Generator
                     </h1>
-                    <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-                        Create premium property descriptions in seconds with our AI engine.
-                        Optimized for real estate platforms.
+                    <p className="mt-4 text-lg text-muted-foreground leading-relaxed font-medium tracking-tight">
+                        Create premium property descriptions in seconds.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-                    {/* Left Column: Input Form (Span 7) */}
+                    {/* Left Column: Control Panel (Span 7) */}
                     <div className="lg:col-span-7 space-y-8">
                         <form onSubmit={handleSubmit} className="space-y-8">
 
-                            {/* Section: Basic Info */}
-                            <div className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md dark:border-border/50">
-                                <div className="mb-6 flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 ring-1 ring-inset ring-blue-500/20 dark:text-blue-400">
-                                        <Home size={20} />
+                            {/* Card: Property Essentials */}
+                            <div className="rounded-3xl border border-slate-200/50 bg-white p-8 shadow-sm dark:border-white/5 dark:bg-[#0b0f1a] transition-all hover:shadow-md">
+                                <div className="mb-8 flex items-center gap-4">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400">
+                                        <Home size={22} />
                                     </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold tracking-tight text-foreground">Property Details</h3>
-                                        <p className="text-sm text-muted-foreground">The essentials of your listing</p>
-                                    </div>
+                                    <h3 className="text-xl font-bold tracking-tight text-foreground">Essentials</h3>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Type</label>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div className="col-span-full">
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Property Type</label>
                                         <select
                                             name="propertyType"
                                             value={formData.propertyType}
                                             onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
+                                            className="w-full rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none"
                                         >
                                             <option>Apartment</option>
                                             <option>House</option>
                                             <option>Villa</option>
                                             <option>Penthouse</option>
-                                            <option>Studio</option>
-                                            <option>Commercial</option>
+                                            <option>Commercial Space</option>
                                         </select>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Size (m²)</label>
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Size (m²)</label>
                                         <input
                                             type="number"
                                             name="sqMeters"
-                                            required
                                             value={formData.sqMeters}
                                             onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
+                                            required
+                                            className="w-full rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none placeholder:text-muted-foreground/40"
                                             placeholder="120"
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bedrooms</label>
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Bedrooms</label>
                                         <input
                                             type="number"
                                             name="bedrooms"
                                             value={formData.bedrooms}
                                             onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
+                                            className="w-full rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none placeholder:text-muted-foreground/40"
                                             placeholder="2"
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Bathrooms</label>
-                                        <input
-                                            type="number"
-                                            name="bathrooms"
-                                            value={formData.bathrooms}
-                                            onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
-                                            placeholder="1"
-                                        />
-                                    </div>
                                 </div>
                             </div>
 
-                            {/* Section: Location & Features */}
-                            <div className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md dark:border-border/50">
-                                <div className="mb-6 flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600 ring-1 ring-inset ring-purple-500/20 dark:text-purple-400">
-                                        <MapPin size={20} />
+                            {/* Card: Location & Features */}
+                            <div className="rounded-3xl border border-slate-200/50 bg-white p-8 shadow-sm dark:border-white/5 dark:bg-[#0b0f1a] transition-all hover:shadow-md">
+                                <div className="mb-8 flex items-center gap-4">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-600 dark:bg-pink-500/10 dark:text-pink-400">
+                                        <MapPin size={22} />
                                     </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold tracking-tight text-foreground">Location & Features</h3>
-                                        <p className="text-sm text-muted-foreground">Where and what makes it special</p>
-                                    </div>
+                                    <h3 className="text-xl font-bold tracking-tight text-foreground">Location</h3>
                                 </div>
 
-                                <div className="space-y-5">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Address / Area</label>
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Address</label>
                                         <input
                                             type="text"
                                             name="location"
-                                            required
                                             value={formData.location}
                                             onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
+                                            required
+                                            className="w-full rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none placeholder:text-muted-foreground/40"
                                             placeholder="e.g. Downtown, New York"
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Key Amenities</label>
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Key Features</label>
                                         <textarea
                                             name="amenities"
-                                            rows={2}
+                                            rows={3}
                                             value={formData.amenities}
                                             onChange={handleChange}
-                                            className="w-full resize-none rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
-                                            placeholder="Balcony, Concierge, Rooftop pool, Smart home system..."
+                                            className="w-full resize-none rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none placeholder:text-muted-foreground/40"
+                                            placeholder="Balcony, Concierge, Rooftop pool..."
                                         />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Unique Selling Point</label>
-                                        <div className="relative">
-                                            <textarea
-                                                name="usp"
-                                                rows={2}
-                                                value={formData.usp}
-                                                onChange={handleChange}
-                                                className="w-full resize-none rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground placeholder:text-muted-foreground/50 transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
-                                                placeholder="e.g. Stunning sunset views over the park..."
-                                            />
-                                            <Sparkles className="absolute right-3 top-3 h-4 w-4 text-amber-500/50" />
-                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Section: Configuration */}
-                            <div className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md dark:border-border/50">
-                                <div className="mb-6 flex items-center gap-3">
-                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10 text-orange-600 ring-1 ring-inset ring-orange-500/20 dark:text-orange-400">
-                                        <Edit3 size={20} />
+                            {/* Card: Tone Settings */}
+                            <div className="rounded-3xl border border-slate-200/50 bg-white p-8 shadow-sm dark:border-white/5 dark:bg-[#0b0f1a] transition-all hover:shadow-md">
+                                <div className="mb-8 flex items-center gap-4">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+                                        <Edit3 size={22} />
                                     </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold tracking-tight text-foreground">Style & Tone</h3>
-                                        <p className="text-sm text-muted-foreground">Customize the output language</p>
-                                    </div>
+                                    <h3 className="text-xl font-bold tracking-tight text-foreground">Style</h3>
                                 </div>
-
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tone</label>
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Tone</label>
                                         <select
                                             name="style"
                                             value={formData.style}
                                             onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
+                                            className="w-full rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none"
                                         >
                                             <option>Professional</option>
                                             <option>Luxury</option>
-                                            <option>Warm & Cozy</option>
+                                            <option>Warm</option>
                                             <option>Modern</option>
                                         </select>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Language</label>
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground/80">Language</label>
                                         <select
                                             name="language"
                                             value={formData.language}
                                             onChange={handleChange}
-                                            className="w-full rounded-xl border-border/50 bg-secondary/30 px-4 py-3 text-sm font-medium text-foreground transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20 hover:bg-secondary/50 outline-none"
+                                            className="w-full rounded-xl bg-slate-50 border-transparent px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-white focus:ring-1 focus:ring-black/20 dark:bg-white/5 dark:focus:bg-white/10 dark:focus:ring-white/20 outline-none"
                                         >
                                             <option>English</option>
                                             <option>German</option>
@@ -267,93 +231,76 @@ export default function GeneratorPage() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-primary px-8 py-4 text-base font-semibold text-white shadow-lg shadow-primary/20 transition-all hover:scale-[1.01] hover:shadow-primary/30 disabled:cursor-not-allowed disabled:opacity-70 active:scale-[0.99]"
+                                className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-foreground px-8 py-4 text-base font-bold text-background transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] transition-transform duration-700 ease-in-out group-hover:translate-x-[200%]" />
                                 {loading ? (
                                     <>
                                         <Loader2 className="h-5 w-5 animate-spin" />
-                                        <span>Crafting Description...</span>
+                                        <span>Generating...</span>
                                     </>
                                 ) : (
                                     <>
-                                        <Sparkles className="h-5 w-5 transition-transform group-hover:scale-110" />
+                                        <Sparkles className="h-5 w-5" />
                                         <span>Generate Description</span>
                                     </>
                                 )}
                             </button>
+
                         </form>
                     </div>
 
-                    {/* Right Column: Result (Span 5) - Sticky */}
-                    <div className="lg:col-span-5">
-                        <div className="sticky top-24">
-                            <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-background/50 shadow-2xl backdrop-blur-xl dark:border-white/5 dark:bg-white/5">
-                                {/* Glass/Glow Effects */}
-                                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
+                    {/* Right Column: Magic Result (Span 5) - Strictly Sticky */}
+                    <div className="lg:col-span-5 relative">
+                        <div className="sticky top-28 self-start">
+                            <div className="relative min-h-[600px] overflow-hidden rounded-3xl border border-white/20 bg-white/70 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-black/40 dark:shadow-none transition-all duration-300">
 
                                 {/* Header */}
-                                <div className="relative flex items-center justify-between border-b border-border/40 bg-muted/20 p-5 backdrop-blur-md">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                                            <Sparkles size={16} />
-                                        </div>
-                                        <h3 className="text-sm font-semibold tracking-tight text-foreground">Starting Draft</h3>
+                                <div className="flex items-center justify-between border-b border-white/10 px-8 py-5">
+                                    <div className="flex items-center gap-2">
+                                        <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+                                        <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+                                        <div className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
                                     </div>
-
                                     {result && (
                                         <button
                                             onClick={copyToClipboard}
-                                            className={cn(
-                                                "inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all hover:scale-105 active:scale-95",
-                                                copied
-                                                    ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                                                    : "border-border/50 bg-background/50 hover:bg-background hover:border-border text-muted-foreground hover:text-foreground"
-                                            )}
+                                            className="flex items-center gap-2 rounded-full bg-white/50 px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-white transition-all dark:bg-white/10 dark:hover:bg-white/20"
                                         >
                                             {copied ? <Check size={14} /> : <Copy size={14} />}
-                                            {copied ? "Copied" : "Copy Text"}
+                                            {copied ? "Copied" : "Copy"}
                                         </button>
                                     )}
                                 </div>
 
-                                {/* Content */}
-                                <div className="relative min-h-[500px] p-6 sm:p-8">
+                                {/* Content Area */}
+                                <div className="p-8 sm:p-10">
                                     {loading ? (
-                                        <div className="space-y-6">
-                                            <div className="flex items-center gap-3 animate-pulse">
-                                                <div className="h-2 w-2 rounded-full bg-primary/50"></div>
-                                                <p className="text-xs font-medium uppercase tracking-widest text-primary/70">Generating</p>
-                                            </div>
-                                            <div className="space-y-4">
-                                                <div className="h-4 w-3/4 rounded-full bg-muted/50 animate-pulse"></div>
-                                                <div className="h-4 w-full rounded-full bg-muted/50 animate-pulse delay-75"></div>
-                                                <div className="h-4 w-5/6 rounded-full bg-muted/50 animate-pulse delay-150"></div>
-                                                <div className="h-4 w-full rounded-full bg-muted/50 animate-pulse delay-200"></div>
-                                                <div className="h-4 w-2/3 rounded-full bg-muted/50 animate-pulse delay-300"></div>
-                                            </div>
+                                        <div className="space-y-6 animate-pulse relative">
+                                            {/* Apple-Style Skeleton */}
+                                            <div className="h-4 w-3/4 rounded-full bg-slate-200/50 dark:bg-white/10" />
+                                            <div className="h-4 w-full rounded-full bg-slate-200/50 dark:bg-white/10" />
+                                            <div className="h-4 w-5/6 rounded-full bg-slate-200/50 dark:bg-white/10" />
+                                            <div className="h-4 w-full rounded-full bg-slate-200/50 dark:bg-white/10" />
+                                            <div className="h-4 w-2/3 rounded-full bg-slate-200/50 dark:bg-white/10" />
+
+                                            <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-white/5" />
                                         </div>
                                     ) : result ? (
-                                        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                                            <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none leading-relaxed text-foreground/90 whitespace-pre-wrap font-sans">
-                                                {result}
-                                            </div>
+                                        <div className="prose prose-lg dark:prose-invert max-w-none font-sans leading-relaxed text-foreground/90 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-700">
+                                            {result}
                                         </div>
                                     ) : (
-                                        <div className="flex h-full flex-col items-center justify-center space-y-4 text-center text-muted-foreground/60 py-20">
-                                            <div className="group flex h-16 w-16 items-center justify-center rounded-2xl border border-dashed border-border bg-muted/30 transition-all duration-500 hover:border-primary/50 hover:bg-primary/5">
-                                                <Sparkles className="h-8 w-8 transition-transform group-hover:scale-110 group-hover:text-primary" />
-                                            </div>
-                                            <div className="max-w-xs space-y-1">
-                                                <p className="text-base font-semibold text-foreground">Ready to Create</p>
-                                                <p className="text-sm">Enter the property details on the left to generate your premium listing.</p>
-                                            </div>
+                                        <div className="flex h-[400px] flex-col items-center justify-center text-center opacity-40">
+                                            <Sparkles className="h-12 w-12 text-foreground mb-6" strokeWidth={1} />
+                                            <p className="text-sm font-medium tracking-widest uppercase">Ready to Generate</p>
                                         </div>
                                     )}
                                 </div>
+
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
