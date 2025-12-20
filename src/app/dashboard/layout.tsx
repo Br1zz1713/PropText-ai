@@ -23,7 +23,7 @@ export default async function DashboardLayout({
     if (user) {
         const { data: profile, error } = await supabase
             .from("profiles")
-            .select("credits_left")
+            .select("credits_remaining")
             .eq("id", user.id)
             .maybeSingle();
 
@@ -32,7 +32,7 @@ export default async function DashboardLayout({
             const { error: insertError } = await supabase.from("profiles").insert({
                 id: user.id,
                 email: user.email,
-                credits_left: 3,
+                credits_remaining: 3,
                 subscription_status: "free",
             });
 
@@ -41,7 +41,7 @@ export default async function DashboardLayout({
             }
             credits = 3;
         } else {
-            credits = profile.credits_left ?? 3;
+            credits = profile.credits_remaining ?? 3;
         }
     }
 

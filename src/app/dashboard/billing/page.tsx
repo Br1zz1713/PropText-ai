@@ -2,12 +2,31 @@
 
 import { Check, Zap, CreditCard, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
 export default function BillingPage() {
-    const currentPlan = "free";
-    const creditsUsed = 3;
+    const [profile, setProfile] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+                setProfile(data);
+            }
+            setLoading(false);
+        };
+        fetchProfile();
+    }, []);
+
+    const creditsUsed = profile ? (10 - (profile.credits_remaining ?? 0)) : 0; // Assuming 10 is the plan limit
     const creditsTotal = 10;
     const usagePercentage = (creditsUsed / creditsTotal) * 100;
+
+    if (loading) return <div className="p-8">Loading...</div>;
 
     return (
         <div className="max-w-5xl mx-auto space-y-12 pb-20">
