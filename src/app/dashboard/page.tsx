@@ -257,111 +257,34 @@ export default function GeneratorPage() {
                                     </>
                                 )}
                             </button>
-
                         </form>
                     </div>
+                    <div className="h-4 w-3/4 rounded-full bg-white/10" />
+                    <div className="h-4 w-full rounded-full bg-white/10" />
+                    <div className="h-4 w-5/6 rounded-full bg-white/10" />
+                    <div className="h-4 w-full rounded-full bg-white/10" />
+                    <div className="h-4 w-2/3 rounded-full bg-white/10" />
 
-                    {/* Right Column: Magic Result (Span 5) - Strictly Sticky */}
-                    <div className="lg:col-span-5 relative">
-                        <div className="sticky top-24 self-start">
-                            <div className="relative min-h-[600px] overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl transition-all duration-300">
-
-                                {/* Header */}
-                                <div className="flex items-center justify-between border-b border-white/10 px-8 py-5">
-                                    <div className="flex items-center gap-2">
-                                        <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
-                                        <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
-                                        <div className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
-                                    </div>
-                                    {result && (
-                                        <div className="flex items-center gap-2">
-                                            <button
-                                                onClick={async () => {
-                                                    setSaving(true);
-                                                    try {
-                                                        const { data: { user } } = await supabase.auth.getUser();
-                                                        if (!user) throw new Error("User not authenticated");
-
-                                                        const title = `${formData.propertyType} in ${formData.location}`;
-
-                                                        // Explicit Console Log
-                                                        console.log("Attempting to save listing:", { user_id: user.id, title, ...formData });
-
-                                                        const { error } = await supabase.from("listings").insert({
-                                                            user_id: user.id,
-                                                            title: title,
-                                                            description: result,
-                                                            property_type: formData.propertyType,
-                                                            location: formData.location,
-                                                            property_details: {
-                                                                sqm: formData.sqm, // UNIFIED: sqm
-                                                                bedrooms: formData.bedrooms,
-                                                                bathrooms: formData.bathrooms,
-                                                                amenities: formData.amenities,
-                                                                style: formData.style,
-                                                                language: formData.language
-                                                            }
-                                                        });
-
-                                                        if (error) throw error;
-
-                                                        toast.success("Saved!");
-                                                        router.refresh();
-                                                    } catch (error: any) {
-                                                        console.error("Save Error:", error);
-                                                        window.alert(`Save Failed: ${error.message || error.details || JSON.stringify(error)}`);
-                                                    } finally {
-                                                        setSaving(false);
-                                                    }
-                                                }}
-                                                disabled={saving}
-                                                className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all disabled:opacity-50"
-                                            >
-                                                {saving ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
-                                                {saving ? "Saving..." : "Save"}
-                                            </button>
-                                            <button
-                                                onClick={copyToClipboard}
-                                                className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white hover:bg-white/20 transition-all"
-                                            >
-                                                {copied ? <Check size={14} /> : <Copy size={14} />}
-                                                {copied ? "Copied" : "Copy"}
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Content Area */}
-                                <div className="p-8 sm:p-10 text-white">
-                                    {loading ? (
-                                        <div className="space-y-6 animate-pulse relative">
-                                            {/* Apple-Style Skeleton */}
-                                            <div className="h-4 w-3/4 rounded-full bg-white/10" />
-                                            <div className="h-4 w-full rounded-full bg-white/10" />
-                                            <div className="h-4 w-5/6 rounded-full bg-white/10" />
-                                            <div className="h-4 w-full rounded-full bg-white/10" />
-                                            <div className="h-4 w-2/3 rounded-full bg-white/10" />
-
-                                            <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-                                        </div>
-                                    ) : result ? (
-                                        <div className="prose prose-lg prose-invert max-w-none font-sans leading-relaxed text-slate-200 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-700">
-                                            {result}
-                                        </div>
-                                    ) : (
-                                        <div className="flex h-[400px] flex-col items-center justify-center text-center opacity-40">
-                                            <Sparkles className="h-12 w-12 text-white mb-6" strokeWidth={1} />
-                                            <p className="text-sm font-medium tracking-widest uppercase text-slate-400">Ready to Generate</p>
-                                        </div>
-                                    )}
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
+                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                 </div>
+                ) : result ? (
+                <div className="prose prose-lg prose-invert max-w-none font-sans leading-relaxed text-slate-200 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    {result}
+                </div>
+                ) : (
+                <div className="flex h-[400px] flex-col items-center justify-center text-center opacity-40">
+                    <Sparkles className="h-12 w-12 text-white mb-6" strokeWidth={1} />
+                    <p className="text-sm font-medium tracking-widest uppercase text-slate-400">Ready to Generate</p>
+                </div>
+                    )}
             </div>
+
         </div>
+        </div >
+                    </div >
+
+                </div >
+            </div >
+        </div >
     );
 }

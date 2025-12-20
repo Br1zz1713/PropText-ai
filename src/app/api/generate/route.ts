@@ -22,10 +22,10 @@ export async function POST(req: Request) {
     console.log("[DEBUG] Step A Success: User", user.id);
 
     // 2. Check Credits & Subscription
-    console.log("[DEBUG] Step A.1: Checking Credits");
+    console.log("[DEBUG] Step A.1: Checking Credits & Branding");
     let { data: profile } = await supabase
         .from("profiles")
-        .select("credits_remaining, subscription_status")
+        .select("credits_remaining, subscription_status, agency_name, phone_number")
         .eq("id", user.id)
         .single();
 
@@ -42,10 +42,10 @@ export async function POST(req: Request) {
         if (insertError) {
             console.error("[DEBUG] Admin Profile Creation Failed:", insertError);
             // DO NOT BLOCK: Fallback to temporary guest credits
-            profile = { credits_remaining: 3, subscription_status: 'free' };
+            profile = { credits_remaining: 3, subscription_status: 'free', agency_name: null, phone_number: null };
         } else {
             // Re-fetch or manually set after successful insert
-            profile = { credits_remaining: 3, subscription_status: 'free' };
+            profile = { credits_remaining: 3, subscription_status: 'free', agency_name: null, phone_number: null };
         }
     }
 
@@ -79,6 +79,11 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Values cannot be negative" }, { status: 400 });
         }
 
+        // Construct Signature
+        const signature = profile?.agency_name || profile?.phone_number
+            ? `\n\n**Contact:**\n${profile.agency_name ? profile.agency_name : ""}${profile.agency_name && profile.phone_number ? " - " : ""}${profile.phone_number ? profile.phone_number : ""}`
+            : "";
+
         // 3. Generate Description
         console.log("[DEBUG] Step B: Gemini Request Start", { propertyType, location, sqm });
         const prompt = `
@@ -93,6 +98,7 @@ export async function POST(req: Request) {
             - Location: ${location}
             - Amenities: ${amenities}
             - Unique Selling Point: ${usp}
+            - Language: ${language}
             
             STYLE & TONE:
             - Tone: ${style} (Professional, Inviting, Sophisticated).
@@ -112,7 +118,7 @@ export async function POST(req: Request) {
             [Paragraph 3: Sell the lifestyle. Mention the USP: "${usp}" and how it elevates daily living.]
             
             **Inquire**
-            [Professional Call to Action]
+            [Professional Call to Action]${signature ? `\n\n(IMPORTANT: Append this exact signature at the absolute end: "${signature}")` : ""}
         `;
 
         let description = "";
