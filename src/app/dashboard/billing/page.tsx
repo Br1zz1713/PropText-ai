@@ -66,7 +66,7 @@ export default function BillingPage() {
                             </li>
                         ))}
                     </ul>
-                    <button disabled className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 text-sm font-medium text-muted-foreground">
+                    <button disabled className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 text-sm font-medium text-muted-foreground cursor-not-allowed">
                         Current Plan
                     </button>
                 </div>
@@ -99,7 +99,7 @@ export default function BillingPage() {
                             </li>
                         ))}
                     </ul>
-                    <button className="w-full rounded-xl bg-primary py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                    <button className="w-full rounded-xl bg-indigo-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-indigo-500/25 transition-transform hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98]">
                         Upgrade to Pro
                     </button>
                     <div className="text-center">
