@@ -25,7 +25,7 @@ export async function GET(request: Request) {
                     const { error: insertError } = await supabase.from("profiles").insert({
                         id: user.id,
                         email: user.email,
-                        credits_left: 3,
+                        credits_remaining: 3,
                     });
 
                     if (insertError) {
