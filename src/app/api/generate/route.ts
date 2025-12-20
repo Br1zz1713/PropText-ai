@@ -125,25 +125,23 @@ export async function POST(req: Request) {
         let geminiErrorDetails = "";
 
         // List of models to try in order of preference
-        const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-flash-001", "gemini-1.5-pro-latest", "gemini-pro", "gemini-1.0-pro"];
+        let modelsToTry = ["gemini-1.5-flash", "models/gemini-1.5-flash", "gemini-1.5-flash-001", "gemini-1.5-pro", "gemini-pro"];
 
         let success = false;
         let lastError = null;
+        let triedModels = new Set<string>();
 
+        // 1. Try Hardcoded
         for (const modelName of modelsToTry) {
+            if (triedModels.has(modelName)) continue;
+            triedModels.add(modelName);
+
             try {
                 console.log(`[DEBUG] Attempting generation with model: ${modelName}`);
-                // Use dynamic import to get the class constructor if needed, but here we just need the instance
-                // We'll Create a new instance for safety or use the existing one with a new model config
-
-                // We must use the SDK's way to get a model. 
-                // Since 'genAI' is exported from lib, we use it.
                 const { genAI } = await import("@/lib/gemini");
                 const dynamicModel = genAI.getGenerativeModel({ model: modelName });
-
                 const result = await dynamicModel.generateContent(prompt);
                 description = result.response.text();
-
                 console.log(`[DEBUG] Success with model: ${modelName}`);
                 success = true;
                 break;
@@ -154,29 +152,58 @@ export async function POST(req: Request) {
             }
         }
 
+        // 2. Auto-Discovery Fallback
         if (!success) {
-            console.error("[DEBUG] All models failed. Attempting to list available models...");
-
-            let availableModels = "Could not fetch models";
+            console.log("[DEBUG] All hardcoded models failed. Converting to Auto-Discovery Mode...");
             try {
                 const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${process.env.GOOGLE_GEMINI_API_KEY}`);
                 const listData = await listRes.json();
+
                 if (listData.models) {
-                    availableModels = listData.models.map((m: any) => m.name).join(", ");
-                } else {
-                    availableModels = JSON.stringify(listData);
+                    const availableModels = listData.models
+                        .filter((m: any) => m.supportedGenerationMethods.includes("generateContent"))
+                        .map((m: any) => m.name) // Use the full 'models/...' name
+                        .sort((a: string, b: string) => {
+                            // Sort preference: flash > 1.5 > pro
+                            const score = (name: string) => {
+                                if (name.includes("1.5-flash")) return 3;
+                                if (name.includes("1.5-pro")) return 2;
+                                if (name.includes("gemini-pro")) return 1;
+                                return 0;
+                            };
+                            return score(b) - score(a);
+                        });
+
+                    console.log(`[DEBUG] Discovered available models: ${availableModels.join(", ")}`);
+
+                    for (const modelName of availableModels) {
+                        if (triedModels.has(modelName)) continue;
+                        triedModels.add(modelName);
+
+                        try {
+                            console.log(`[DEBUG] Auto-Discovery Attempt: ${modelName}`);
+                            const { genAI } = await import("@/lib/gemini");
+                            const dynamicModel = genAI.getGenerativeModel({ model: modelName });
+                            const result = await dynamicModel.generateContent(prompt);
+                            description = result.response.text();
+                            console.log(`[DEBUG] Auto-Discovery Success using: ${modelName}`);
+                            success = true;
+                            break;
+                        } catch (error: any) {
+                            console.error(`[DEBUG] Auto-Discovery Failed with ${modelName}:`, error.message);
+                            geminiErrorDetails += `[${modelName}: ${error.message}] `;
+                        }
+                    }
                 }
-            } catch (listErr: any) {
-                availableModels = `List Error: ${listErr.message}`;
+            } catch (listError: any) {
+                console.error("[DEBUG] Failed to list models for auto-discovery:", listError);
+                geminiErrorDetails += `[ListModels Failed: ${listError.message}]`;
             }
+        }
 
-            const errorMsg = `Gen Failed. Your API Key sees: ${availableModels}. Errors: ${geminiErrorDetails}`;
+        if (!success) {
+            const errorMsg = `Generation Failed. Unable to find a working model. Errors: ${geminiErrorDetails}`;
             console.error(errorMsg);
-
-            // Fallback to allow functionality test if needed, OR throw
-            // throw new Error(errorMsg); 
-
-            // For debugging, let's return this specific error to the UI
             return NextResponse.json(
                 { error: errorMsg },
                 { status: 500 }
