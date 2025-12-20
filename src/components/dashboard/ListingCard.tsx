@@ -1,21 +1,27 @@
 "use client";
 
-import { Calendar, Copy, FileText, MoreVertical } from "lucide-react";
+import { Calendar, Copy, FileText, MoreVertical, Trash2, Edit, Eye } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 interface ListingCardProps {
     listing: {
         id: number;
         title: string;
-        type: string;
+        type: string; // db column is property_type usually, check mapping
         created_at: string;
         description: string;
+        property_details: any; // Add this
     };
 }
 
 export default function ListingCard({ listing }: ListingCardProps) {
     const [copied, setCopied] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+    const supabase = createClient();
+    const router = useRouter();
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(listing.description);
@@ -24,11 +30,42 @@ export default function ListingCard({ listing }: ListingCardProps) {
         setTimeout(() => setCopied(false), 2000);
     };
 
+    const handleDelete = async () => {
+        if (!confirm("Are you sure you want to delete this listing?")) return;
+        setDeleting(true);
+        try {
+            const { error } = await supabase.from("listings").delete().eq("id", listing.id);
+            if (error) throw error;
+            toast.success("Listing deleted");
+            router.refresh();
+        } catch (error) {
+            console.error("Delete error:", error);
+            toast.error("Failed to delete listing");
+        } finally {
+            setDeleting(false);
+        }
+    };
+
+    const handleEdit = () => {
+        // Encode data to pass to generator
+        const query = new URLSearchParams({
+            edit: "true",
+            desc: listing.description,
+            type: listing.type, // Map correctly from DB column?
+            // We might need to fetch full details if not present, but let's pass what we have
+        }).toString();
+        // Since we don't have a dedicated edit route yet, best to just copy content to clipboard or simple alert
+        // Actually, user wants "Edit". Let's redirect to dashboard with query params to pre-fill
+        router.push(`/dashboard?${query}`);
+    };
+
     const formattedDate = new Date(listing.created_at).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric",
     });
+
+    if (deleting) return null; // Optimistic hide
 
     return (
         <div className="group relative flex flex-col justify-between rounded-xl border border-white/10 bg-white/5 p-5 transition-all hover:bg-white/[0.08] hover:border-white/20 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-1">
@@ -39,9 +76,23 @@ export default function ListingCard({ listing }: ListingCardProps) {
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
                         <FileText size={20} />
                     </div>
-                    <button className="text-muted-foreground hover:text-foreground transition-colors">
-                        <MoreVertical size={16} />
-                    </button>
+
+                    <div className="flex items-center gap-1">
+                        <button
+                            onClick={handleEdit}
+                            className="p-2 text-muted-foreground hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                            title="Edit"
+                        >
+                            <Edit size={16} />
+                        </button>
+                        <button
+                            onClick={handleDelete}
+                            className="p-2 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                            title="Delete"
+                        >
+                            <Trash2 size={16} />
+                        </button>
+                    </div>
                 </div>
 
                 <h3 className="font-semibold text-lg text-foreground mb-1 line-clamp-1 group-hover:text-indigo-400 transition-colors">
@@ -63,8 +114,14 @@ export default function ListingCard({ listing }: ListingCardProps) {
             </div>
 
             <div className="relative z-10 pt-4 border-t border-white/5 flex items-center justify-between">
-                <button className="text-xs font-medium text-foreground hover:underline decoration-indigo-500/50 underline-offset-4">
-                    View Full
+                <button
+                    onClick={() => {
+                        // Simple 'View Full' acting as alert for now or rudimentary modal
+                        alert(listing.description);
+                    }}
+                    className="text-xs font-medium text-foreground hover:underline decoration-indigo-500/50 underline-offset-4 flex items-center gap-1"
+                >
+                    <Eye size={12} /> View Full
                 </button>
                 <button
                     onClick={copyToClipboard}

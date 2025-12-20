@@ -1,3 +1,12 @@
+-- FIX: Add missing columns for new features
+ALTER TABLE public.listings 
+ADD COLUMN IF NOT EXISTS property_details jsonb;
+
+ALTER TABLE public.profiles 
+ADD COLUMN IF NOT EXISTS agency_name text,
+ADD COLUMN IF NOT EXISTS phone_number text;
+
+-- EXISTING POLICIES BELOW...
 -- Enable RLS on tables
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE listings ENABLE ROW LEVEL SECURITY;
