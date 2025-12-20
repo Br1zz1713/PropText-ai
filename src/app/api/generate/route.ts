@@ -122,16 +122,49 @@ export async function POST(req: Request) {
         `;
 
         let description = "";
+        let geminiErrorDetails = "";
 
-        try {
-            const result = await model.generateContent(prompt);
-            description = result.response.text();
-            console.log("[DEBUG] Step B Success: Gemini Generated Text");
-        } catch (geminiError: any) {
-            console.error("[DEBUG] Step B FAILED: Gemini API Error:", geminiError);
-            // Fallback to allow DB save verification
-            description = `Test Description (Fallback due to API Error: ${geminiError.message || "Unknown Error"})`;
+        // List of models to try in order of preference
+        const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"];
+
+        // Import genAI from lib (ensure it is exported)
+        // Note: We need to import genAI at the top, I will add the import separately or rely on global scope if I could, but better to use the imported 'model' as base and re-use client.
+        // Actually, I can't easily import 'genAI' if I didn't verify the import line.
+        // I will use the 'model' object to access the client, OR just assume the first attempt uses the default exported model, and then I try others.
+        // BETTER: Use a loop.
+
+        let success = false;
+
+        for (const modelName of modelsToTry) {
+            try {
+                console.log(`[DEBUG] Attempting generation with model: ${modelName}`);
+                // distinct import needed? We can use the imported 'genAI' client if we updated the import.
+                // Since I updated the export in gemini.ts, I need to update the import in this file too.
+                // For now, I will assume the 'model' export was purely for convenience and I should use 'genAI' if available.
+                // WAIT, I haven't updated the IMPORT in this file yet.
+                // I will do that in a separate step or just use the existing 'model' for the first try, then fail.
+                // Actually, to make this robust, I'll assume I can't import genAI yet without modifying the top of file.
+                // So I will write the LOGIC assuming 'genAI' is available.
+
+                const dynamicModel = (await import("@/lib/gemini")).genAI.getGenerativeModel({ model: modelName });
+                const result = await dynamicModel.generateContent(prompt);
+                description = result.response.text();
+                console.log(`[DEBUG] Success with model: ${modelName}`);
+                success = true;
+                break;
+            } catch (error: any) {
+                console.error(`[DEBUG] Failed with model ${modelName}:`, error.message);
+                geminiErrorDetails = error.message;
+            }
         }
+
+        if (!success) {
+            console.error("[DEBUG] All models failed.");
+            // Fallback to allow DB save verification if completely broken
+            description = `Generation Failed. detailed error: ${geminiErrorDetails}`;
+            throw new Error(`All models failed. Last error: ${geminiErrorDetails}`);
+        }
+
 
         // 4. Deduct Credit (Only if not Pro)
         if (!isPro) {
