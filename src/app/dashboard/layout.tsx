@@ -13,17 +13,21 @@ export default async function DashboardLayout({
         data: { user },
     } = await supabase.auth.getUser();
 
-    if (!user) {
-        redirect("/login");
+    // ALLOW GUEST ACCESS: Removed strict redirect
+    // if (!user) {
+    //     redirect("/login");
+    // }
+
+    let credits = 3;
+
+    if (user) {
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("credits_left")
+            .eq("id", user.id)
+            .single();
+        credits = profile?.credits_left ?? 3;
     }
-
-    const { data: profile } = await supabase
-        .from("profiles")
-        .select("credits_left")
-        .eq("id", user.id)
-        .single();
-
-    const credits = profile?.credits_left ?? 3;
 
     return (
         <div className="flex min-h-screen bg-background text-foreground transition-colors duration-300 ease-in-out selection:bg-primary/30">
