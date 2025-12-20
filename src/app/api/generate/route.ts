@@ -75,21 +75,38 @@ export async function POST(req: Request) {
 
         // 3. Generate Description
         const prompt = `
-      Act as a professional real estate copywriter. Write a compelling property description for a listing in Europe.
-      
-      Details:
-      - Property Type: ${propertyType}
-      - Size: ${sqMeters} sqm
-      - Configuration: ${bedrooms} Bed, ${bathrooms} Bath
-      - Location: ${location}
-      - Amenities: ${amenities}
-      - Unique Selling Point: ${usp}
-      
-      Style: ${style}
-      Language: ${language}
-      
-      Output only the description text. Do not include introductory phrases.
-    `;
+            Role: You are a luxury real estate copywriter known for "Apple-style" minimalism and sophistication.
+            
+            Task: Write a premium property description based on the following details.
+            
+            DETAILS:
+            - Property Type: ${propertyType}
+            - Size: ${sqMeters} sqm
+            - Configuration: ${bedrooms} Bed, ${bathrooms} Bath
+            - Location: ${location}
+            - Amenities: ${amenities}
+            - Unique Selling Point: ${usp}
+            
+            STYLE & TONE:
+            - Tone: ${style} (Professional, Inviting, Sophisticated).
+            - Forbidden: Do NOT use generic fluff like "amazing apartment" or "stunning views" unless supported by specific details.
+            
+            REQUIRED STRUCTURE (Markdown):
+            
+            # [Write a Catchy, Bold Headline Here]
+            
+            **Location & Vibe**
+            [Paragraph 1: Focus on the location advantages and the general vibe of the neighborhood using the location data "${location}".]
+            
+            **Interior & Design**
+            [Paragraph 2: Describe the interior features, highlighting the ${sqMeters} sqm size, ${bedrooms} bedrooms, and specific amenities: ${amenities}.]
+            
+            **Lifestyle**
+            [Paragraph 3: Sell the lifestyle. Mention the USP: "${usp}" and how it elevates daily living.]
+            
+            **Inquire**
+            [Professional Call to Action]
+        `;
 
         let description = "";
 
