@@ -4,18 +4,21 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    /* Pure White */
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 40% 98%;
+    /* Slate-50 #F8FAFC */
+    --foreground: 215.4 16.3% 46.9%;
+    /* Slate-600 #475569 */
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* White */
+    --card-foreground: 222.2 47.4% 11.2%;
+    /* Slate-900 #0F172A */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 222.2 47.4% 11.2%;
 
-    --primary: 243 75% 59%;
-    /* Indigo 600 */
+    --primary: 221.2 83.2% 53.3%;
+    /* Blue-600 #2563EB */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -31,10 +34,11 @@
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
+    /* Slate-200 #E2E8F0 */
     --input: 214.3 31.8% 91.4%;
-    --ring: 243 75% 59%;
+    --ring: 221.2 83.2% 53.3%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -99,6 +103,25 @@
     font-weight: 700;
     letter-spacing: -0.025em;
     text-decoration: none;
+    color: hsl(222.2 47.4% 11.2%);
+    /* Slate-900 for Contrast */
+  }
+
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6 {
+    color: hsl(var(--foreground));
+  }
+
+  /* Global Input Fix */
+  input:not([type='checkbox']):not([type='radio']),
+  textarea,
+  select {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   h1 {
