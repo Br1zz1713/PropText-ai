@@ -91,8 +91,11 @@ export function CreditsProvider({
         fetchUserAndSubscribe();
     }, [supabase, router]);
 
+    const isPro = subscriptionStatus === "active";
+    const displayCredits = isPro ? 999999 : credits; // Internally use high number, consumers check isPro or display "Unlimited"
+
     return (
-        <CreditsContext.Provider value={{ credits, subscriptionStatus, refreshCredits }}>
+        <CreditsContext.Provider value={{ credits: displayCredits, subscriptionStatus, refreshCredits }}>
             {children}
         </CreditsContext.Provider>
     );
