@@ -5,11 +5,13 @@ export default function TermsPage() {
     return (
         <>
             <Navbar />
-            <main className="container mx-auto px-4 py-16 max-w-3xl">
-                <h1 className="text-3xl font-bold text-gray-900 mb-8">Terms of Service</h1>
-                <div className="prose prose-indigo text-gray-600">
-                    <p>Effective Date: {new Date().toLocaleDateString()}</p>
+            <main className="container mx-auto px-4 pt-32 pb-24 max-w-3xl min-h-screen">
+                <div className="mb-12 text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">Terms of Service</h1>
+                    <p className="text-slate-400">Effective Date: {new Date().toLocaleDateString()}</p>
+                </div>
 
+                <div className="prose prose-lg prose-invert mx-auto text-slate-400 prose-headings:font-semibold prose-headings:text-white prose-strong:text-white">
                     <h3>1. Acceptance of Terms</h3>
                     <p>
                         By accessing or using PropText.ai, you agree to be bound by these Terms of Service.
