@@ -48,8 +48,12 @@ CREATE TABLE IF NOT EXISTS public.generations (
     user_id UUID REFERENCES auth.users NOT NULL,
     input_data JSONB,
     output_text TEXT,
+    cost INTEGER DEFAULT 1, -- Track cost per generation
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Explicitly add column if table exists (Fix for existing DBs)
+ALTER TABLE public.generations ADD COLUMN IF NOT EXISTS cost INTEGER DEFAULT 1;
 
 -- ==========================================
 -- 3. AUTOMATION (Triggers)

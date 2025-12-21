@@ -260,9 +260,15 @@ export default function BillingPage() {
                                     </td>
                                     <td className="px-6 py-4">Standard Generation</td>
                                     <td className="px-6 py-4">
-                                        <span className="inline-flex items-center px-2 py-1 rounded bg-red-500/10 text-red-400 text-xs font-bold">
-                                            -1 Credit
-                                        </span>
+                                        {gen.cost > 0 ? (
+                                            <span className="inline-flex items-center px-2 py-1 rounded bg-red-500/10 text-red-400 text-xs font-bold">
+                                                -{gen.cost} Credit
+                                            </span>
+                                        ) : (
+                                            <span className="inline-flex items-center px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 text-xs font-bold">
+                                                Free (Pro)
+                                            </span>
+                                        )}
                                     </td>
                                     <td className="px-6 py-4 text-muted-foreground truncate max-w-[200px]">
                                         {JSON.stringify(gen.input_data).slice(0, 30)}...

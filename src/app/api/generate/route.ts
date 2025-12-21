@@ -276,10 +276,12 @@ export async function POST(req: Request) {
         }
 
         // Best effort for generations logs
+        const cost = isPro ? 0 : 1; // 0 for Pro, 1 for Free
         await supabase.from("generations").insert({
             user_id: user.id,
             input_data: inputData,
             output_text: description,
+            cost: cost,
             language,
             style,
         });
