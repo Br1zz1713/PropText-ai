@@ -8,18 +8,19 @@ import { useRouter } from "next/navigation";
 
 interface ListingCardProps {
     listing: {
-        id: number;
+        id: string;
         title: string;
-        type: string; // db column is property_type usually, check mapping
+        type: string;
         created_at: string;
         description: string;
-        property_details: any; // Add this
+        property_details: any;
     };
+    onDelete?: (id: string) => void;
 }
 
 import ListingModal from "./ListingModal";
 
-export default function ListingCard({ listing }: ListingCardProps) {
+export default function ListingCard({ listing, onDelete }: ListingCardProps) {
     const [copied, setCopied] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,7 +41,12 @@ export default function ListingCard({ listing }: ListingCardProps) {
             const { error } = await supabase.from("listings").delete().eq("id", listing.id);
             if (error) throw error;
             toast.success("Listing deleted");
-            router.refresh();
+
+            if (onDelete) {
+                onDelete(listing.id);
+            } else {
+                router.refresh();
+            }
         } catch (error) {
             console.error("Delete error:", error);
             toast.error("Failed to delete listing");
