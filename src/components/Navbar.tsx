@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { ArrowRight } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
+import NavbarCredits from "./NavbarCredits";
 
 export async function Navbar() {
     const supabase = createClient();
@@ -26,13 +28,17 @@ export async function Navbar() {
                     </div>
 
                     <div className="flex items-center gap-4">
+                        <ThemeToggle />
                         {user ? (
-                            <Link
-                                href="/dashboard"
-                                className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:scale-105 active:scale-95"
-                            >
-                                Dashboard
-                            </Link>
+                            <>
+                                <Link
+                                    href="/dashboard"
+                                    className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:scale-105 active:scale-95"
+                                >
+                                    Dashboard
+                                </Link>
+                                <NavbarCredits />
+                            </>
                         ) : (
                             <>
                                 <Link

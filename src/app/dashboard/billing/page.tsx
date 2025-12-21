@@ -4,12 +4,14 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { Loader2, CreditCard, Zap, History, Check, Shield } from "lucide-react";
 import { toast } from "sonner";
+import { useCredits } from "@/components/CreditsProvider";
 
 export default function BillingPage() {
     const supabase = createClient();
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState<any>(null);
     const [generations, setGenerations] = useState<any[]>([]);
+    const { credits } = useCredits();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,7 +69,7 @@ export default function BillingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 {/* Credit Balance Card */}
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-8 relative overflow-hidden group">
+                <div className="rounded-3xl border border-border bg-card p-8 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                         <Zap size={100} />
                     </div>
@@ -78,8 +80,8 @@ export default function BillingPage() {
                             </div>
                             <span className="font-bold uppercase tracking-widest text-xs">Balance</span>
                         </div>
-                        <div className="text-5xl font-bold text-white mb-2">
-                            {isPro ? "∞" : profile?.credits_remaining ?? 0}
+                        <div className="text-5xl font-bold text-foreground mb-2">
+                            {isPro ? "∞" : credits}
                         </div>
                         <p className="text-muted-foreground">
                             {isPro ? "Unlimited Credits (Pro Plan)" : "Free Credits Remaining"}
@@ -88,12 +90,12 @@ export default function BillingPage() {
                 </div>
 
                 {/* Plan Status Card */}
-                <div className="rounded-3xl border border-white/10 bg-white/5 p-8 relative overflow-hidden">
+                <div className="rounded-3xl border border-border bg-card p-8 relative overflow-hidden">
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h3 className="text-xl font-bold text-white">Current Plan</h3>
-                            <p className="text-slate-400 text-sm mt-1">
-                                You are currently on the <span className="text-white font-semibold">{isPro ? "Pro" : "Free"}</span> plan.
+                            <h3 className="text-xl font-bold text-foreground">Current Plan</h3>
+                            <p className="text-muted-foreground text-sm mt-1">
+                                You are currently on the <span className="text-foreground font-semibold">{isPro ? "Pro" : "Free"}</span> plan.
                             </p>
                         </div>
                         {isPro && (
@@ -104,11 +106,11 @@ export default function BillingPage() {
                     </div>
 
                     {!isPro ? (
-                        <button className="w-full py-3 rounded-xl bg-white text-black font-bold hover:bg-slate-200 transition-colors">
+                        <button className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-colors">
                             Upgrade to Pro
                         </button>
                     ) : (
-                        <button className="w-full py-3 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-colors">
+                        <button className="w-full py-3 rounded-xl bg-secondary text-foreground font-medium hover:bg-secondary/80 transition-colors">
                             Manage Subscription
                         </button>
                     )}
@@ -118,39 +120,39 @@ export default function BillingPage() {
             {/* Pricing Grid (Visualization of Account-Credits Correspondence) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                 {/* Free Tier */}
-                <div className={`rounded-3xl border p-8 ${!isPro ? 'border-indigo-500/50 bg-indigo-500/5' : 'border-white/10 bg-white/5'}`}>
+                <div className={`rounded-3xl border p-8 ${!isPro ? 'border-primary/50 bg-primary/5' : 'border-border bg-card/50'}`}>
                     <div className="mb-4">
-                        <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Starter</span>
-                        <h3 className="text-2xl font-bold text-white mt-1">Free</h3>
+                        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Starter</span>
+                        <h3 className="text-2xl font-bold text-foreground mt-1">Free</h3>
                     </div>
                     <ul className="space-y-3 mb-8">
-                        <li className="flex items-center gap-3 text-sm text-slate-300">
+                        <li className="flex items-center gap-3 text-sm text-muted-foreground">
                             <Check size={16} className="text-emerald-400" /> 3 Credits / Month
                         </li>
-                        <li className="flex items-center gap-3 text-sm text-slate-300">
+                        <li className="flex items-center gap-3 text-sm text-muted-foreground">
                             <Check size={16} className="text-emerald-400" /> Standard Generation Speed
                         </li>
-                        <li className="flex items-center gap-3 text-sm text-slate-300">
+                        <li className="flex items-center gap-3 text-sm text-muted-foreground">
                             <Check size={16} className="text-emerald-400" /> Basic Support
                         </li>
                     </ul>
                 </div>
 
                 {/* Pro Tier */}
-                <div className={`rounded-3xl border p-8 relative overflow-hidden ${isPro ? 'border-indigo-500/50 bg-indigo-500/10' : 'border-white/10 bg-white/5'}`}>
-                    {!isPro && <div className="absolute top-0 right-0 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">RECOMMENDED</div>}
+                <div className={`rounded-3xl border p-8 relative overflow-hidden ${isPro ? 'border-primary/50 bg-primary/10' : 'border-border bg-card/50'}`}>
+                    {!isPro && <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-xl">RECOMMENDED</div>}
                     <div className="mb-4">
-                        <span className="text-xs font-bold uppercase tracking-widest text-indigo-400">Professional</span>
-                        <h3 className="text-2xl font-bold text-white mt-1">$29<span className="text-sm font-medium text-slate-500">/mo</span></h3>
+                        <span className="text-xs font-bold uppercase tracking-widest text-primary">Professional</span>
+                        <h3 className="text-2xl font-bold text-foreground mt-1">$29<span className="text-sm font-medium text-muted-foreground">/mo</span></h3>
                     </div>
                     <ul className="space-y-3 mb-8">
-                        <li className="flex items-center gap-3 text-sm text-white">
+                        <li className="flex items-center gap-3 text-sm text-foreground">
                             <Check size={16} className="text-indigo-400" /> <span className="font-bold">Unlimited Credits</span>
                         </li>
-                        <li className="flex items-center gap-3 text-sm text-white">
-                            <Check size={16} className="text-indigo-400" /> Priority Generation (Faster)
+                        <li className="flex items-center gap-3 text-sm text-foreground">
+                            <Check size={16} className="text-primary" /> Priority Generation (Faster)
                         </li>
-                        <li className="flex items-center gap-3 text-sm text-white">
+                        <li className="flex items-center gap-3 text-sm text-foreground">
                             <Check size={16} className="text-indigo-400" /> Premium Support
                         </li>
                     </ul>
@@ -158,14 +160,14 @@ export default function BillingPage() {
             </div>
 
             {/* Usage History */}
-            <div className="rounded-3xl border border-white/10 bg-white/5 overflow-hidden">
-                <div className="p-6 border-b border-white/10 flex items-center gap-3">
-                    <History size={20} className="text-slate-400" />
-                    <h3 className="font-bold text-white">Usage History</h3>
+            <div className="rounded-3xl border border-border bg-card overflow-hidden">
+                <div className="p-6 border-b border-border flex items-center gap-3">
+                    <History size={20} className="text-muted-foreground" />
+                    <h3 className="font-bold text-foreground">Usage History</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
-                        <thead className="bg-white/5 text-slate-400 uppercase tracking-wider text-xs font-medium">
+                        <thead className="bg-secondary/50 text-muted-foreground uppercase tracking-wider text-xs font-medium">
                             <tr>
                                 <th className="px-6 py-4">Date</th>
                                 <th className="px-6 py-4">Action</th>
@@ -173,9 +175,9 @@ export default function BillingPage() {
                                 <th className="px-6 py-4">Details</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/10 text-slate-300">
+                        <tbody className="divide-y divide-border text-foreground">
                             {generations.map((gen) => (
-                                <tr key={gen.id} className="hover:bg-white/5 transition-colors">
+                                <tr key={gen.id} className="hover:bg-secondary/20 transition-colors">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         {new Date(gen.created_at).toLocaleDateString()}
                                     </td>
@@ -185,14 +187,14 @@ export default function BillingPage() {
                                             -1 Credit
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-slate-500 truncate max-w-[200px]">
+                                    <td className="px-6 py-4 text-muted-foreground truncate max-w-[200px]">
                                         {JSON.stringify(gen.input_data).slice(0, 30)}...
                                     </td>
                                 </tr>
                             ))}
                             {generations.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-slate-500">
+                                    <td colSpan={4} className="px-6 py-8 text-center text-muted-foreground">
                                         No usage history yet.
                                     </td>
                                 </tr>

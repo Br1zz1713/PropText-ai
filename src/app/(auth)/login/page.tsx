@@ -102,10 +102,10 @@ function LoginForm() {
 
     return (
         <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8 shadow-xl dark:border-border/50">
-            <h2 className="text-center text-xl font-bold tracking-tight text-foreground">
+            <h2 className="text-center text-xl font-bold tracking-tight text-foreground no-underline decoration-0">
                 Welcome back
             </h2>
-            <p className="mt-2 text-center text-sm text-muted-foreground">
+            <p className="mt-2 text-center text-sm text-muted-foreground no-underline decoration-0">
                 Sign in to generate more descriptions
             </p>
 
@@ -113,7 +113,7 @@ function LoginForm() {
                 <button
                     onClick={() => handleSocialLogin("google")}
                     disabled={loading}
-                    className="flex w-full items-center justify-center rounded-xl border border-input bg-background/50 px-4 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex w-full items-center justify-center rounded-xl border border-input bg-background/50 px-4 py-2.5 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-all no-underline decoration-0"
                 >
                     {loading ? (
                         <Loader2 className="mr-2 h-5 w-5 animate-spin text-muted-foreground" />
@@ -145,7 +145,7 @@ function LoginForm() {
                         <span className="w-full border-t border-border" />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-card px-2 text-muted-foreground">
+                        <span className="bg-card px-2 text-muted-foreground no-underline decoration-0">
                             Or continue with
                         </span>
                     </div>
@@ -155,7 +155,7 @@ function LoginForm() {
                     <div>
                         <label
                             htmlFor="email"
-                            className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5"
+                            className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1.5 no-underline decoration-0"
                         >
                             Email address
                         </label>

@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useCredits } from "@/components/CreditsProvider";
 
 export default function ProfilePage() {
     const [user, setUser] = useState<any>(null);
@@ -77,7 +78,7 @@ export default function ProfilePage() {
     const email = user.email;
     const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
     const subscription = profile?.subscription_status === 'active' ? 'Pro Agent' : 'Free Plan';
-    const credits = profile?.credits_remaining ?? 0;
+    const { credits } = useCredits();
 
     return (
         <div className="max-w-4xl mx-auto pb-20">
@@ -87,7 +88,7 @@ export default function ProfilePage() {
 
                 {/* Left Column: Identity (Span 4) */}
                 <div className="md:col-span-4 space-y-6">
-                    <div className="relative group rounded-2xl border border-white/10 bg-white/5 p-8 flex flex-col items-center justify-center text-center overflow-hidden">
+                    <div className="relative group rounded-2xl border border-border bg-card p-8 flex flex-col items-center justify-center text-center overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                         <div className="relative mb-4">
@@ -106,23 +107,23 @@ export default function ProfilePage() {
                         <p className="text-sm text-muted-foreground uppercase tracking-widest font-medium mt-1">{subscription}</p>
 
                         {/* Credits Display */}
-                        <div className="mt-6 flex items-center justify-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm font-medium border border-white/10">
+                        <div className="mt-6 flex items-center justify-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-medium border border-border">
                             <CreditCard size={14} className="text-emerald-400" />
                             <span className="text-emerald-400">{credits} Credits</span>
                         </div>
                     </div>
 
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-1">
+                    <div className="rounded-2xl border border-border bg-card p-1">
                         <nav className="flex flex-col space-y-1">
-                            <button className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 text-sm font-medium text-foreground transition-colors w-full">
+                            <button className="flex items-center gap-3 rounded-xl bg-secondary px-4 py-3 text-sm font-medium text-foreground transition-colors w-full">
                                 <User size={16} />
                                 Personal Info
                             </button>
-                            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors w-full">
+                            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors w-full">
                                 <Shield size={16} />
                                 Security
                             </button>
-                            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors w-full">
+                            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors w-full">
                                 <Bell size={16} />
                                 Notifications
                             </button>
@@ -135,7 +136,7 @@ export default function ProfilePage() {
 
                     {/* Section: Personal Info */}
                     <section className="space-y-6">
-                        <h3 className="text-lg font-semibold text-foreground border-b border-white/10 pb-4">Personal Information</h3>
+                        <h3 className="text-lg font-semibold text-foreground border-b border-border pb-4">Personal Information</h3>
 
                         <div className="grid grid-cols-1 gap-6">
                             <div className="space-y-2">
@@ -143,7 +144,7 @@ export default function ProfilePage() {
                                 <input
                                     type="text"
                                     defaultValue={fullName}
-                                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all"
+                                    className="w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm text-foreground focus:border-primary focus:bg-background outline-none transition-all"
                                     readOnly
                                 />
                             </div>
@@ -152,7 +153,7 @@ export default function ProfilePage() {
                                 <input
                                     type="email"
                                     defaultValue={email}
-                                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all"
+                                    className="w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm text-foreground focus:border-primary focus:bg-background outline-none transition-all"
                                     readOnly
                                 />
                             </div>
@@ -161,7 +162,7 @@ export default function ProfilePage() {
 
                     {/* Section: Branding & Contact */}
                     <section className="space-y-6">
-                        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                        <div className="flex items-center justify-between border-b border-border pb-4">
                             <h3 className="text-lg font-semibold text-foreground">Branding & Contact</h3>
                             <span className="text-xs text-muted-foreground">Used for auto-signatures</span>
                         </div>
@@ -174,7 +175,7 @@ export default function ProfilePage() {
                                     value={agencyName}
                                     onChange={(e) => setAgencyName(e.target.value)}
                                     placeholder="e.g. Luxury Estates"
-                                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all placeholder:text-slate-600"
+                                    className="w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm text-foreground focus:border-primary focus:bg-background outline-none transition-all placeholder:text-muted-foreground"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -184,7 +185,7 @@ export default function ProfilePage() {
                                     value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
                                     placeholder="e.g. +1 (555) 000-0000"
-                                    className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:bg-background outline-none transition-all placeholder:text-slate-600"
+                                    className="w-full rounded-xl border border-input bg-background/50 px-4 py-3 text-sm text-foreground focus:border-primary focus:bg-background outline-none transition-all placeholder:text-muted-foreground"
                                 />
                             </div>
                         </div>
@@ -193,7 +194,7 @@ export default function ProfilePage() {
                             <button
                                 onClick={handleSaveProfile}
                                 disabled={saving}
-                                className="flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-black transition-all hover:bg-slate-200 disabled:opacity-50"
+                                className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
                             >
                                 {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
                                 {saving ? "Saving..." : "Save Changes"}
@@ -202,7 +203,7 @@ export default function ProfilePage() {
                     </section>
 
                     {/* Section: Danger Zone */}
-                    <section className="pt-8 border-t border-white/10 pb-8">
+                    <section className="pt-8 border-t border-border pb-8">
                         <div className="flex items-center justify-between">
                             <div>
                                 <h4 className="text-sm font-medium text-foreground">Sign Out</h4>

@@ -7,8 +7,10 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useCredits } from "./CreditsProvider";
 
-export default function DashboardHeader({ credits }: { credits: number }) {
+export default function DashboardHeader() {
+    const { credits } = useCredits(); // Use shared context
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
