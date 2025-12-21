@@ -70,21 +70,7 @@ export default function DashboardHeader() {
 
                 <div className="h-4 w-[1px] bg-border/50 hidden sm:block" />
 
-                {/* Theme Toggle */}
-                <button
-                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-border/50 bg-background text-foreground transition-all duration-500 hover:border-foreground/20 hover:bg-accent focus:outline-none"
-                    aria-label="Toggle theme"
-                >
-                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-transform duration-500 dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-transform duration-500 dark:rotate-0 dark:scale-100" />
-                </button>
-
-                {/* Notifications */}
-                <button className="relative flex h-9 w-9 items-center justify-center rounded-full border border-border/50 bg-background text-foreground transition-all duration-300 hover:border-foreground/20 hover:bg-accent focus:outline-none">
-                    <Bell size={16} />
-                    <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-red-500 ring-2 ring-background" />
-                </button>
+                <div className="h-4 w-[1px] bg-border/50 hidden sm:block" />
 
                 {/* Avatar Profile */}
                 <div className="relative group">
