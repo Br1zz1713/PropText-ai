@@ -1,7 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
 export const Hero = () => {
+    const [href, setHref] = useState("/signup");
+    const supabase = createClient();
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setHref("/dashboard");
+            }
+        };
+        checkUser();
+    }, [supabase]);
+
     return (
         <section className="relative overflow-hidden pt-36 pb-24 lg:pt-48 lg:pb-32">
             {/* Background: Ghostly Gradient Mesh (Deep Blue/Purple) */}
@@ -33,10 +50,10 @@ export const Hero = () => {
                     {/* CTA Buttons - Glowing, High Saturation */}
                     <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
                         <Link
-                            href="/signup"
+                            href={href}
                             className="group relative inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-base font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:scale-105 active:scale-95"
                         >
-                            <span className="relative z-10">Start Generating Free</span>
+                            <span className="relative z-10">{href === "/dashboard" ? "Go to Dashboard" : "Start Generating Free"}</span>
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                             <div className="absolute inset-0 rounded-full ring-4 ring-white/10 group-hover:ring-white/20 transition-all" />
                         </Link>
