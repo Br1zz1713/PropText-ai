@@ -4,8 +4,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 
-interface CreditsContextType {
+export interface CreditsContextType {
     credits: number;
+    subscriptionStatus: "free" | "active" | "canceled" | null;
     refreshCredits: () => Promise<void>;
 }
 
@@ -19,6 +20,7 @@ export function CreditsProvider({
     initialCredits: number;
 }) {
     const [credits, setCredits] = useState(initialCredits);
+    const [subscriptionStatus, setSubscriptionStatus] = useState<"free" | "active" | "canceled" | null>("free");
     const supabase = createClient();
     const router = useRouter();
 
@@ -28,12 +30,13 @@ export function CreditsProvider({
 
         const { data } = await supabase
             .from("profiles")
-            .select("credits_remaining")
+            .select("credits_remaining, subscription_status")
             .eq("id", user.id)
             .single();
 
         if (data) {
-            setCredits(data.credits_remaining);
+            setCredits(data.credits_remaining ?? 0);
+            setSubscriptionStatus(data.subscription_status ?? "free");
             router.refresh();
         }
     };
@@ -43,9 +46,17 @@ export function CreditsProvider({
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) return;
 
-            // Initial fetch to be sure
-            // (Client side might be slightly out of sync with server fetch if it changed in ms)
-            // But we trust initialCredits for now to avoid flicker, just subscribe.
+            // Initial fetch
+            const { data } = await supabase
+                .from("profiles")
+                .select("credits_remaining, subscription_status")
+                .eq("id", user.id)
+                .single();
+
+            if (data) {
+                setCredits(data.credits_remaining ?? 0);
+                setSubscriptionStatus(data.subscription_status ?? "free");
+            }
 
             const channel = supabase
                 .channel('realtime-credits')
@@ -58,9 +69,15 @@ export function CreditsProvider({
                         filter: `id=eq.${user.id}`,
                     },
                     (payload) => {
-                        console.log('Credit update received:', payload);
-                        const newCredits = (payload.new as any).credits_remaining;
-                        setCredits(newCredits);
+                        console.log('Credit/Sub update received:', payload);
+                        if (payload.new) {
+                            if ("credits_remaining" in payload.new) {
+                                setCredits((payload.new as any).credits_remaining);
+                            }
+                            if ("subscription_status" in payload.new) {
+                                setSubscriptionStatus((payload.new as any).subscription_status);
+                            }
+                        }
                         router.refresh();
                     }
                 )
@@ -75,7 +92,7 @@ export function CreditsProvider({
     }, [supabase, router]);
 
     return (
-        <CreditsContext.Provider value={{ credits, refreshCredits }}>
+        <CreditsContext.Provider value={{ credits, subscriptionStatus, refreshCredits }}>
             {children}
         </CreditsContext.Provider>
     );
