@@ -1,16 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { FileText, LayoutDashboard, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const navItems = [
-    { name: "Generator", href: "/dashboard", icon: LayoutDashboard },
-    { name: "My Listings", href: "/dashboard/listings", icon: FileText },
-    { name: "Billing", href: "/dashboard/billing", icon: Settings }, // Using Settings icon for Billing/Plan management
-    { name: "Profile", href: "/dashboard/profile", icon: User },
-];
+import { navItems } from "@/config/navigation";
 
 export default function DashboardSidebar() {
     const pathname = usePathname();

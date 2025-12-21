@@ -9,7 +9,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useCredits } from "@/components/CreditsProvider";
 import Link from "next/link";
-import { navItems } from "./DashboardSidebar";
+import { navItems } from "@/config/navigation";
 
 export default function DashboardHeader() {
     const { credits } = useCredits(); // Use shared context
