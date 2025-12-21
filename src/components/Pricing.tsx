@@ -1,7 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
 
 export function Pricing() {
+    const [subscribeHref, setSubscribeHref] = useState("/signup?plan=pro");
+    const supabase = createClient();
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setSubscribeHref("/dashboard/billing");
+            }
+        };
+        checkUser();
+    }, [supabase]);
+
     return (
         <section id="pricing" className="py-20 bg-white">
             <div className="container mx-auto px-4 md:px-6">
@@ -62,7 +79,7 @@ export function Pricing() {
                             ))}
                         </ul>
                         <Link
-                            href="/signup?plan=pro"
+                            href={subscribeHref}
                             className="mt-8 block rounded-lg bg-primary px-5 py-3 text-center text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 shadow-sm"
                         >
                             Subscribe Now
