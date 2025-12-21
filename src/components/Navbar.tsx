@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { ArrowRight } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
 import NavbarCredits from "./NavbarCredits";
 
 export async function Navbar() {
@@ -28,7 +27,6 @@ export async function Navbar() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <ThemeToggle />
                         {user ? (
                             <>
                                 <Link
