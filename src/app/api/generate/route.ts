@@ -64,16 +64,25 @@ export async function POST(req: Request) {
 
     try {
         const {
-            propertyType,
-            sqm, // UNIFIED: sqm
-            bedrooms,
-            bathrooms,
-            location,
-            amenities,
-            usp,
-            style,
-            language
-        } = await req.json();
+            const {
+                propertyType,
+                sqm,
+                livingArea,
+                kitchenArea,
+                bedrooms,
+                bathrooms,
+                floor,
+                totalFloors,
+                ceilingHeight,
+                yearBuilt,
+                wallMaterial,
+                balcony,
+                location,
+                amenities,
+                usp,
+                style,
+                language
+            } = await req.json();
 
         if (Number(sqm) < 0 || Number(bedrooms) < 0 || Number(bathrooms) < 0) {
             return NextResponse.json({ error: "Values cannot be negative" }, { status: 400 });
@@ -93,9 +102,18 @@ export async function POST(req: Request) {
             
             DETAILS:
             - Property Type: ${propertyType}
-            - Size: ${sqm} sqm
-            - Configuration: ${bedrooms} Bed, ${bathrooms} Bath
             - Location: ${location}
+            - Size: ${sqm} sqm (Living: ${livingArea || "N/A"}, Kitchen: ${kitchenArea || "N/A"})
+            - Configuration: ${bedrooms} Bed, ${bathrooms} Bath
+            
+            TECHNICAL SPECS:
+            - Floor: ${floor || "N/A"} / ${totalFloors || "N/A"}
+            - Ceiling Height: ${ceilingHeight ? ceilingHeight + "m" : "N/A"}
+            - Year Built: ${yearBuilt || "N/A"}
+            - Wall Material: ${wallMaterial || "N/A"}
+            - Balcony/Terrace: ${balcony || "N/A"}
+            
+            FEATURES:
             - Amenities: ${amenities}
             - Unique Selling Point: ${usp}
             - Language: ${language}
@@ -112,10 +130,10 @@ export async function POST(req: Request) {
             [Paragraph 1: Focus on the location advantages and the general vibe of the neighborhood using the location data "${location}".]
             
             **Interior & Design**
-            [Paragraph 2: Describe the interior features, highlighting the ${sqm} sqm size, ${bedrooms} bedrooms, and specific amenities: ${amenities}.]
+            [Paragraph 2: Describe the interior features. Highlighting the ${sqm} sqm size and layout. Mention specific technical details like ceiling height (${ceilingHeight}), floor level, or wall materials IF provided and relevant to the luxury feel.]
             
-            **Lifestyle**
-            [Paragraph 3: Sell the lifestyle. Mention the USP: "${usp}" and how it elevates daily living.]
+            **Lifestyle & Amenities**
+            [Paragraph 3: Sell the lifestyle. Mention the USP: "${usp}", the balcony/view (${balcony}), and amenities.]
             
             **Inquire**
             [Professional Call to Action]${signature ? `\n\n(IMPORTANT: Append this exact signature at the absolute end: "${signature}")` : ""}
@@ -237,13 +255,19 @@ export async function POST(req: Request) {
         console.log("[DEBUG] Step C: Database Insert Start (Generations & Listings)");
         const title = `${propertyType} in ${location}`;
 
+        const inputData = {
+            propertyType, sqm, livingArea, kitchenArea, bedrooms,
+            bathrooms, floor, totalFloors, ceilingHeight,
+            yearBuilt, wallMaterial, balcony, location, amenities, usp
+        };
+
         const { error: dbError } = await supabase.from("listings").insert({
             user_id: user.id,
             title,
             property_type: propertyType,
             description,
             location,
-            property_details: { sqm, bedrooms, bathrooms, amenities, style, language }
+            property_details: { ...inputData, style, language }
         });
 
         if (dbError) {
@@ -254,7 +278,7 @@ export async function POST(req: Request) {
         // Best effort for generations logs
         await supabase.from("generations").insert({
             user_id: user.id,
-            input_data: { propertyType, sqm, bedrooms, bathrooms, location, amenities, usp },
+            input_data: inputData,
             output_text: description,
             language,
             style,

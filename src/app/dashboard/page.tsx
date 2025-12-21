@@ -41,8 +41,16 @@ export default function GeneratorPage() {
     const [formData, setFormData] = useState({
         propertyType: "Apartment",
         sqm: "",
+        livingArea: "", // New
+        kitchenArea: "", // New
         bedrooms: "",
         bathrooms: "",
+        floor: "", // New
+        totalFloors: "", // New
+        ceilingHeight: "", // New
+        yearBuilt: "", // New
+        wallMaterial: "Brick", // New
+        balcony: "None", // New
         location: "",
         amenities: "",
         usp: "",
@@ -102,8 +110,16 @@ export default function GeneratorPage() {
                 location: formData.location,
                 property_details: {
                     sqm: formData.sqm,
+                    livingArea: formData.livingArea,
+                    kitchenArea: formData.kitchenArea,
                     bedrooms: formData.bedrooms,
                     bathrooms: formData.bathrooms,
+                    floor: formData.floor,
+                    totalFloors: formData.totalFloors,
+                    ceilingHeight: formData.ceilingHeight,
+                    yearBuilt: formData.yearBuilt,
+                    wallMaterial: formData.wallMaterial,
+                    balcony: formData.balcony,
                     amenities: formData.amenities,
                     style: formData.style,
                     language: formData.language
@@ -160,8 +176,8 @@ export default function GeneratorPage() {
                                     <h3 className="text-xl font-bold tracking-tight text-foreground">Essentials</h3>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div className="col-span-full">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div className="col-span-full sm:col-span-1">
                                         <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted-foreground">Property Type</label>
                                         <select
                                             name="propertyType"
@@ -176,8 +192,10 @@ export default function GeneratorPage() {
                                             <option className="bg-background text-foreground">Commercial Space</option>
                                         </select>
                                     </div>
+
+                                    {/* Areas */}
                                     <div>
-                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Size (m²)</label>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Total Size (m²)</label>
                                         <input
                                             type="number"
                                             name="sqm"
@@ -189,6 +207,30 @@ export default function GeneratorPage() {
                                         />
                                     </div>
                                     <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Living (m²)</label>
+                                        <input
+                                            type="number"
+                                            name="livingArea"
+                                            value={formData.livingArea}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                            placeholder="80"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Kitchen (m²)</label>
+                                        <input
+                                            type="number"
+                                            name="kitchenArea"
+                                            value={formData.kitchenArea}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                            placeholder="15"
+                                        />
+                                    </div>
+
+                                    {/* Rooms */}
+                                    <div>
                                         <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Bedrooms</label>
                                         <input
                                             type="number"
@@ -199,6 +241,100 @@ export default function GeneratorPage() {
                                             placeholder="2"
                                         />
                                     </div>
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Bathrooms</label>
+                                        <input
+                                            type="number"
+                                            name="bathrooms"
+                                            value={formData.bathrooms}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                            placeholder="1"
+                                        />
+                                    </div>
+
+                                    {/* Tech Specs */}
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Floor</label>
+                                        <div className="flex items-center gap-2">
+                                            <input
+                                                type="number"
+                                                name="floor"
+                                                value={formData.floor}
+                                                onChange={handleChange}
+                                                className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                                placeholder="5"
+                                            />
+                                            <span className="text-muted-foreground">/</span>
+                                            <input
+                                                type="number"
+                                                name="totalFloors"
+                                                value={formData.totalFloors}
+                                                onChange={handleChange}
+                                                className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                                placeholder="10"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Ceiling (m)</label>
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            name="ceilingHeight"
+                                            value={formData.ceilingHeight}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                            placeholder="2.8"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Year Built</label>
+                                        <input
+                                            type="number"
+                                            name="yearBuilt"
+                                            value={formData.yearBuilt}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none placeholder:text-muted-foreground/50"
+                                            placeholder="2020"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Walls</label>
+                                        <select
+                                            name="wallMaterial"
+                                            value={formData.wallMaterial}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none"
+                                        >
+                                            <option className="bg-background text-foreground">Brick</option>
+                                            <option className="bg-background text-foreground">Concrete</option>
+                                            <option className="bg-background text-foreground">Monolith</option>
+                                            <option className="bg-background text-foreground">Panel</option>
+                                            <option className="bg-background text-foreground">Block</option>
+                                            <option className="bg-background text-foreground">Wood</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-slate-400">Balcony</label>
+                                        <select
+                                            name="balcony"
+                                            value={formData.balcony}
+                                            onChange={handleChange}
+                                            className="w-full rounded-xl bg-background/50 border border-input px-4 py-3.5 text-sm font-medium text-foreground transition-all focus:bg-background focus:ring-1 focus:ring-primary outline-none"
+                                        >
+                                            <option className="bg-background text-foreground">None</option>
+                                            <option className="bg-background text-foreground">Balcony</option>
+                                            <option className="bg-background text-foreground">Loggia</option>
+                                            <option className="bg-background text-foreground">Terrace</option>
+                                            <option className="bg-background text-foreground">Patio</option>
+                                        </select>
+                                    </div>
+
                                 </div>
                             </div>
 
