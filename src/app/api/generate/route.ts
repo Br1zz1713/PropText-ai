@@ -213,13 +213,24 @@ export async function POST(req: Request) {
 
         // 4. Deduct Credit (Only if not Pro)
         if (!isPro) {
-            console.log("[DEBUG] Step C.1: Deducting Credit");
-            const { error: updateError } = await supabase
+            console.log("[DEBUG] Step C.1: Deducting Credit (Re-fetching latest balance)");
+            // Re-fetch latest credits to ensure atomic-like correctness after long generation
+            const { data: latestProfile } = await supabase
                 .from("profiles")
-                .update({ credits_remaining: profile.credits_remaining - 1 })
-                .eq("id", user.id);
+                .select("credits_remaining")
+                .eq("id", user.id)
+                .single();
 
-            if (updateError) console.error("[DEBUG] Credit Deduction Error:", updateError);
+            if (latestProfile && latestProfile.credits_remaining > 0) {
+                const { error: updateError } = await supabase
+                    .from("profiles")
+                    .update({ credits_remaining: latestProfile.credits_remaining - 1 })
+                    .eq("id", user.id);
+
+                if (updateError) console.error("[DEBUG] Credit Deduction Error:", updateError);
+            } else {
+                console.warn("[DEBUG] Credit Deduction Skipped: User has 0 credits (race condition caught)");
+            }
         }
 
         // 5. Save Generation & Listing (Auto-Save)
