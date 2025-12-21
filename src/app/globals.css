@@ -4,55 +4,20 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    /* Slate-50 #F8FAFC */
-    --foreground: 215.4 16.3% 46.9%;
-    /* Slate-600 #475569 */
-
-    --card: 0 0% 100%;
-    /* White */
-    --card-foreground: 222.2 47.4% 11.2%;
-    /* Slate-900 #0F172A */
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-
-    --primary: 221.2 83.2% 45%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    /* Slate-200 #E2E8F0 */
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-
-    --radius: 0.75rem;
-  }
-
-  .dark {
+    /* Premium Dark Mode Tokens (Permanent) */
     --background: 224 71% 4%;
-    /* #030712 Deep Midnight Black */
+    /* #030712 Deep Midnight */
     --foreground: 210 40% 98%;
 
     --card: 224 71% 6%;
-    /* Slightly lighter than bg for subtle separation */
+    /* #0b1221 Slightly Lighter */
     --card-foreground: 210 40% 98%;
 
     --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 243 75% 59%;
+    /* Indigo-600 #4f46e5 (Vibrant) */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -60,6 +25,7 @@
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+    /* Slate-400 */
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
@@ -68,9 +34,14 @@
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
+    /* Slate-800 */
     --input: 217.2 32.6% 17.5%;
     --ring: 243 75% 59%;
+
+    --radius: 0.75rem;
   }
+
+  /* .dark block removed as it is now default */
 }
 
 @layer base {
@@ -102,16 +73,6 @@
     font-weight: 700;
     letter-spacing: -0.025em;
     text-decoration: none;
-    color: hsl(222.2 47.4% 11.2%);
-    /* Slate-900 for Contrast */
-  }
-
-  .dark h1,
-  .dark h2,
-  .dark h3,
-  .dark h4,
-  .dark h5,
-  .dark h6 {
     color: hsl(var(--foreground));
   }
 
@@ -198,5 +159,24 @@
     outline: none;
     border-color: hsl(var(--primary));
     box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+  }
+
+  /* Pastel Highlights (Light Mode Premium) */
+  .bg-mint-soft {
+    background-color: #ECFDF5;
+    color: #047857;
+    border: 1px solid #D1FAE5;
+  }
+
+  .bg-blue-soft {
+    background-color: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #DBEAFE;
+  }
+
+  .bg-lavender-soft {
+    background-color: #FAF5FF;
+    color: #7E22CE;
+    border: 1px solid #F3E8FF;
   }
 }
