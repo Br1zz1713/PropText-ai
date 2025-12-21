@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Shield, Key, LogOut, Bell, Loader2, Save, Check, CreditCard } from "lucide-react";
+import { User, Key, LogOut, Loader2, Save, Check, CreditCard } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -119,14 +119,7 @@ export default function ProfilePage() {
                                 <User size={16} />
                                 Personal Info
                             </button>
-                            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors w-full">
-                                <Shield size={16} />
-                                Security
-                            </button>
-                            <button className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors w-full">
-                                <Bell size={16} />
-                                Notifications
-                            </button>
+
                         </nav>
                     </div>
                 </div>
