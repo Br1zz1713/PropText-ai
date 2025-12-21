@@ -64,25 +64,25 @@ export async function POST(req: Request) {
 
     try {
         const {
-            const {
-                propertyType,
-                sqm,
-                livingArea,
-                kitchenArea,
-                bedrooms,
-                bathrooms,
-                floor,
-                totalFloors,
-                ceilingHeight,
-                yearBuilt,
-                wallMaterial,
-                balcony,
-                location,
-                amenities,
-                usp,
-                style,
-                language
-            } = await req.json();
+
+            propertyType,
+            sqm,
+            livingArea,
+            kitchenArea,
+            bedrooms,
+            bathrooms,
+            floor,
+            totalFloors,
+            ceilingHeight,
+            yearBuilt,
+            wallMaterial,
+            balcony,
+            location,
+            amenities,
+            usp,
+            style,
+            language
+        } = await req.json();
 
         if (Number(sqm) < 0 || Number(bedrooms) < 0 || Number(bathrooms) < 0) {
             return NextResponse.json({ error: "Values cannot be negative" }, { status: 400 });
