@@ -5,8 +5,8 @@ export const Hero = () => {
     return (
         <section className="relative overflow-hidden pt-36 pb-24 lg:pt-48 lg:pb-32">
             {/* Background: Ghostly Gradient Mesh (Deep Blue/Purple) */}
-            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-500/10 via-background to-background" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-primary/20 blur-[100px] rounded-full opacity-50 pointer-events-none" />
+            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-300/40 via-background to-background dark:from-indigo-500/10" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-indigo-500/10 blur-[100px] rounded-full opacity-70 pointer-events-none dark:bg-primary/20 dark:opacity-50" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
