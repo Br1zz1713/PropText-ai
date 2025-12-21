@@ -20,6 +20,7 @@ export default function ProfilePage() {
 
     const supabase = createClient();
     const router = useRouter();
+    const { credits } = useCredits();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,7 +37,7 @@ export default function ProfilePage() {
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [supabase]);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
@@ -78,7 +79,6 @@ export default function ProfilePage() {
     const email = user.email;
     const avatarUrl = user.user_metadata?.avatar_url || user.user_metadata?.picture;
     const subscription = profile?.subscription_status === 'active' ? 'Pro Agent' : 'Free Plan';
-    const { credits } = useCredits();
 
     return (
         <div className="max-w-4xl mx-auto pb-20">

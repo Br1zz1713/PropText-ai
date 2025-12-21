@@ -29,7 +29,7 @@ export default function DashboardHeader() {
             }
         };
         getUser();
-    }, []);
+    }, [supabase]);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
