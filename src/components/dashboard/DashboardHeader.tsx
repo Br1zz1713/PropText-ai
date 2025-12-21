@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useCredits } from "./CreditsProvider";
+import { useCredits } from "@/components/CreditsProvider";
 
 export default function DashboardHeader() {
     const { credits } = useCredits(); // Use shared context
