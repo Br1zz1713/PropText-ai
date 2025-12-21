@@ -2,30 +2,25 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
-import { Loader2, CreditCard, Zap, History, Check, Shield } from "lucide-react";
+import { Loader2, CreditCard, Zap, History, Check, Shield, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
 import { useCredits } from "@/components/CreditsProvider";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function BillingPage() {
     const supabase = createClient();
     const [loading, setLoading] = useState(true);
-    const [profile, setProfile] = useState<any>(null);
+    // const [profile, setProfile] = useState<any>(null); // Removed local profile state, using context
     const [generations, setGenerations] = useState<any[]>([]);
-    const { credits } = useCredits();
+    const { credits, subscriptionStatus, refreshCredits } = useCredits(); // Use shared context
+    const [isUpgrading, setIsUpgrading] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (!user) return;
-
-                // Fetch Profile
-                const { data: profileData } = await supabase
-                    .from("profiles")
-                    .select("*")
-                    .eq("id", user.id)
-                    .single();
-                setProfile(profileData);
 
                 // Fetch Usage History (Generations)
                 const { data: genData } = await supabase
@@ -48,6 +43,40 @@ export default function BillingPage() {
         fetchData();
     }, [supabase]);
 
+    const handleMockUpgrade = async () => {
+        setIsUpgrading(true);
+
+        // 1. Simulate Network Delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                toast.error("User not found");
+                return;
+            }
+
+            // 2. Update Profile to Mock Pro
+            const { error } = await supabase
+                .from("profiles")
+                .update({ subscription_status: 'active' })
+                .eq("id", user.id);
+
+            if (error) {
+                console.error("Mock Upgrade Failed:", error);
+                toast.error("Upgrade failed (Database Error)");
+            } else {
+                // 3. Success
+                await refreshCredits(); // Sync context
+                setShowSuccess(true);
+            }
+        } catch (e) {
+            toast.error("An error occurred");
+        } finally {
+            setIsUpgrading(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
@@ -56,10 +85,47 @@ export default function BillingPage() {
         );
     }
 
-    const isPro = profile?.subscription_status === 'active';
+    const isPro = subscriptionStatus === 'active';
 
     return (
-        <div className="space-y-8 pb-20">
+        <div className="space-y-8 pb-20 relative">
+            {/* Success Modal Overlay */}
+            <AnimatePresence>
+                {showSuccess && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-background/80 backdrop-blur-md"
+                            onClick={() => setShowSuccess(false)}
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="relative w-full max-w-md overflow-hidden rounded-3xl border border-primary/20 bg-card p-1 shadow-2xl"
+                        >
+                            <div className="rounded-[20px] border border-border bg-gradient-to-br from-indigo-500/10 via-background to-background p-8 text-center">
+                                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 ring-1 ring-emerald-500/20">
+                                    <PartyPopper size={40} className="animate-bounce" />
+                                </div>
+                                <h2 className="mb-2 text-2xl font-bold tracking-tight text-foreground">Welcome to Pro! 🚀</h2>
+                                <p className="mb-8 text-muted-foreground">
+                                    Your account has been upgraded. You now have <strong>Unlimited Credits</strong> and priority access.
+                                </p>
+                                <button
+                                    onClick={() => setShowSuccess(false)}
+                                    className="w-full rounded-xl bg-primary px-4 py-3 font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                                >
+                                    Start Creating
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
             <div>
                 <h1 className="text-3xl font-bold tracking-tighter text-foreground">Billing & Credits</h1>
                 <p className="text-muted-foreground mt-1">Manage your plan and view usage history.</p>
@@ -106,12 +172,23 @@ export default function BillingPage() {
                     </div>
 
                     {!isPro ? (
-                        <button className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-colors">
-                            Upgrade to Pro
+                        <button
+                            onClick={handleMockUpgrade}
+                            disabled={isUpgrading}
+                            className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2"
+                        >
+                            {isUpgrading ? (
+                                <>
+                                    <Loader2 className="animate-spin" size={20} />
+                                    Processing...
+                                </>
+                            ) : (
+                                "Upgrade to Pro"
+                            )}
                         </button>
                     ) : (
-                        <button className="w-full py-3 rounded-xl bg-secondary text-foreground font-medium hover:bg-secondary/80 transition-colors">
-                            Manage Subscription
+                        <button className="w-full py-3 rounded-xl bg-secondary text-foreground font-medium hover:bg-secondary/80 transition-colors cursor-not-allowed opacity-50">
+                            Manage Subscription (Demo)
                         </button>
                     )}
                 </div>

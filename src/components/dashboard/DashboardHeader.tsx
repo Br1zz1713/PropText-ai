@@ -12,7 +12,7 @@ import Link from "next/link";
 import { navItems } from "@/config/navigation";
 
 export default function DashboardHeader() {
-    const { credits } = useCredits(); // Use shared context
+    const { credits, subscriptionStatus } = useCredits(); // Use shared context
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -75,15 +75,26 @@ export default function DashboardHeader() {
                     {/* Credit Badge */}
                     <div className={cn(
                         "hidden items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition-all sm:flex",
-                        credits > 0
-                            ? "border-emerald-500/20 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400"
-                            : "border-rose-500/20 bg-rose-500/5 text-rose-600 dark:text-rose-400"
+                        subscriptionStatus === 'active'
+                            ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-400 shadow-[0_0_10px_-3px_rgba(79,70,229,0.5)]"
+                            : credits > 0
+                                ? "border-emerald-500/20 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400"
+                                : "border-rose-500/20 bg-rose-500/5 text-rose-600 dark:text-rose-400"
                     )}>
-                        <span className={cn(
-                            "h-1.5 w-1.5 rounded-full",
-                            credits > 0 ? "bg-emerald-500 animate-pulse" : "bg-rose-500"
-                        )} />
-                        {credits} Credits
+                        {subscriptionStatus === 'active' ? (
+                            <>
+                                <Sparkles size={12} className="text-indigo-400 animate-pulse" />
+                                <span>PRO PLAN</span>
+                            </>
+                        ) : (
+                            <>
+                                <span className={cn(
+                                    "h-1.5 w-1.5 rounded-full",
+                                    credits > 0 ? "bg-emerald-500 animate-pulse" : "bg-rose-500"
+                                )} />
+                                {credits} Credits
+                            </>
+                        )}
                     </div>
 
                     <div className="h-4 w-[1px] bg-border/50 hidden sm:block" />
