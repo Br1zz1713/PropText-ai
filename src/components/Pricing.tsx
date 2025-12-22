@@ -69,7 +69,7 @@ export function Pricing() {
                         <h3 className="text-lg font-semibold text-indigo-400">Pro Agent</h3>
                         <p className="mt-2 text-sm text-slate-400">For serious realtors</p>
                         <div className="mt-6 flex items-baseline gap-1">
-                            <span className="text-4xl font-bold tracking-tight text-white">€19</span>
+                            <span className="text-4xl font-bold tracking-tight text-white">$29</span>
                             <span className="text-sm font-medium text-slate-500">/month</span>
                         </div>
                         <ul className="mt-8 space-y-4 flex-1">
