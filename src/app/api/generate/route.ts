@@ -3,6 +3,52 @@ import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { model } from "@/lib/gemini";
 import { NextResponse } from "next/server";
 
+/**
+ * AI Listing Generation API Endpoint
+ * 
+ * This endpoint handles the core business logic for generating property listings
+ * using Google's Gemini AI. It includes:
+ * - User authentication and authorization
+ * - Credit system management (3 free credits for new users)
+ * - Multi-model fallback for 99.9% uptime
+ * - Automatic listing and generation history saving
+ * - Agency branding (signature appending)
+ * 
+ * @route POST /api/generate
+ * @access Protected (requires authentication)
+ * 
+ * @param req - Request body containing property details:
+ *   - propertyType: string (e.g., "Apartment", "House")
+ *   - location: string
+ *   - sqm: number (total square meters)
+ *   - bedrooms: number
+ *   - bathrooms: number
+ *   - amenities: string
+ *   - usp: string (unique selling point)
+ *   - style: string (tone of the description)
+ *   - language: string (output language)
+ *   - Additional optional fields: livingArea, kitchenArea, floor, etc.
+ * 
+ * @returns JSON response:
+ *   - Success (200): { description: string }
+ *   - Unauthorized (401): { error: "Unauthorized" }
+ *   - Insufficient Credits (403): { error: "Insufficient credits..." }
+ *   - Server Error (500): { error: "Generation Failed..." }
+ * 
+ * @example
+ * POST /api/generate
+ * {
+ *   "propertyType": "Apartment",
+ *   "location": "Downtown Manhattan",
+ *   "sqm": 85,
+ *   "bedrooms": 2,
+ *   "bathrooms": 1,
+ *   "amenities": "Gym, Pool, Parking",
+ *   "usp": "Panoramic city views",
+ *   "style": "Professional",
+ *   "language": "English"
+ * }
+ */
 export async function POST(req: Request) {
     const supabase = createClient();
 
